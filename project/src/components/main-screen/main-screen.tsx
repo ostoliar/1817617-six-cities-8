@@ -1,10 +1,14 @@
-import CardScreen from '../card-screen/card-screen';
+import OfferCard from '../offer-card/offer-card';
 
 type MainScreenProps = {
-    cardCount: number;
+    cardCount: number,
+    CardProperties:
+    {
+      id: number
+    }[]
 }
 
-function MainScreen({ cardCount }: MainScreenProps): JSX.Element {
+function MainScreen({ cardCount, CardProperties }: MainScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -76,7 +80,7 @@ function MainScreen({ cardCount }: MainScreenProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{cardCount} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -104,12 +108,7 @@ function MainScreen({ cardCount }: MainScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <CardScreen />
-                <CardScreen />
-                <CardScreen />
-                <CardScreen />
-                <CardScreen />
-                <CardScreen />
+                {CardProperties.map((item) => <OfferCard key={item.id}/>)}
               </div>
             </section>
             <div className="cities__right-section">

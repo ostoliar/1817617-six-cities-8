@@ -1,11 +1,20 @@
 import MainScreen from '../main-screen/main-screen';
 
 type AppScreenProps = {
-  cardCount: number;
+  cardCount: number,
+  CardProperties:
+    {
+      id: number
+    }[]
 }
 
-function App({cardCount} : AppScreenProps): JSX.Element {
-  return <MainScreen cardCount={cardCount}/>;
+function App({cardCount, CardProperties} : AppScreenProps): JSX.Element {
+  return (
+    <MainScreen
+      cardCount = {cardCount}
+      CardProperties = {CardProperties}
+    />
+  );
 }
 
 export default App;
