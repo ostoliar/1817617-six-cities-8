@@ -1,8 +1,8 @@
 type MainScreenProps = {
-    cardCount: number,
+  readonly cardCount: number,
     cardProperties:
     {
-      id: number
+      readonly id: number
     }[]
 }
 
