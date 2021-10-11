@@ -1,6 +1,12 @@
 import OfferCard from '../offer-card/offer-card';
-import MainScreenProps from './type';
 
+type MainScreenProps = {
+  readonly cardCount: number,
+    cardProperties:
+    {
+      readonly id: number
+    }[]
+}
 
 function MainScreen({ cardCount, cardProperties }: MainScreenProps): JSX.Element {
   return (

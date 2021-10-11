@@ -2,7 +2,7 @@ import {Switch, Route, BrowserRouter} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import MainScreen from '../main-screen/main-screen';
 import FavoritesPageScreen from '../favorites-screen/favorites-screen';
-import NotFoundPage from '../not-found-page/not-found-page';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 import RoomOfferScreen from '../room-offer-screen/room-offer-screen';
 import SignInScreen from '../sign-in-screen/sign-in-screen';
 import PrivateRoute from '../private-route/private-route';
@@ -22,21 +22,18 @@ function App({cardCount, cardProperties} : AppScreenProps): JSX.Element {
         <Route exact path={AppRoute.SignIn}>
           <SignInScreen />
         </Route>
-        <Route exact path={AppRoute.Favorites}>
-          <FavoritesPageScreen />
-        </Route>
-        <Route exact path={AppRoute.Room}>
+        <Route exact path={`${AppRoute.Room}/:id`}>
           <RoomOfferScreen />
         </Route>
         <PrivateRoute
           exact
-          path={AppRoute.SignIn}
-          render={() => <SignInScreen />}
+          path={AppRoute.Favorites}
+          render={() => <FavoritesPageScreen />}
           authorizationStatus={AuthorizationStatus.NoAuth}
         >
         </PrivateRoute>
         <Route>
-          <NotFoundPage />
+          <NotFoundScreen />
         </Route>
 
       </Switch>

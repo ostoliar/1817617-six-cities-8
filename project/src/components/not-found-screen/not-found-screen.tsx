@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 
-function NotFoundPage(): JSX.Element {
+function NotFoundScreen(): JSX.Element {
   return (
     <>
       <h1>404. Page not found</h1>
@@ -9,4 +9,4 @@ function NotFoundPage(): JSX.Element {
   );
 }
 
-export default NotFoundPage;
+export default NotFoundScreen;
