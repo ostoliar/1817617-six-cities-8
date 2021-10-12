@@ -1,14 +1,14 @@
 import OfferCard from '../offer-card/offer-card';
 
 type MainScreenProps = {
-    cardCount: number,
-    CardProperties:
+  readonly cardCount: number,
+    cardProperties:
     {
-      id: number
+      readonly id: number
     }[]
 }
 
-function MainScreen({ cardCount, CardProperties }: MainScreenProps): JSX.Element {
+function MainScreen({ cardCount, cardProperties }: MainScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -108,7 +108,7 @@ function MainScreen({ cardCount, CardProperties }: MainScreenProps): JSX.Element
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {CardProperties.map((item) => <OfferCard key={item.id}/>)}
+                {cardProperties.map((item) => <OfferCard key={item.id}/>)}
               </div>
             </section>
             <div className="cities__right-section">
