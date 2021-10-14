@@ -3,33 +3,37 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 import MainScreen from '../main-screen/main-screen';
 import FavoritesPageScreen from '../favorites-screen/favorites-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
-import RoomOfferScreen from '../room-offer-screen/room-offer-screen';
 import SignInScreen from '../sign-in-screen/sign-in-screen';
 import PrivateRoute from '../private-route/private-route';
-import AppScreenProps from './type';
+import Offer from '../offer/offer';
+import { OfferType} from '../../types/offer';
+import { CommentType } from '../../types/comment';
 
+type AppScreenProps = {
+  offersList: OfferType[];
+  commentsList: CommentType[];
+}
 
-function App({cardCount, cardProperties} : AppScreenProps): JSX.Element {
+function App({offersList, commentsList} : AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
           <MainScreen
-            cardCount = {cardCount}
-            cardProperties = {cardProperties}
+            offersList={offersList}
           />
         </Route>
         <Route exact path={AppRoute.SignIn}>
           <SignInScreen />
         </Route>
         <Route exact path={`${AppRoute.Room}/:id`}>
-          <RoomOfferScreen />
+          <Offer offersList={offersList} commentsList={commentsList}/>
         </Route>
         <PrivateRoute
           exact
           path={AppRoute.Favorites}
-          render={() => <FavoritesPageScreen />}
-          authorizationStatus={AuthorizationStatus.NoAuth}
+          render={() => <FavoritesPageScreen offersList={offersList} />}
+          authorizationStatus={AuthorizationStatus.Auth}
         >
         </PrivateRoute>
         <Route>
