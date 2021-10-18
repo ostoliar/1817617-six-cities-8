@@ -3,6 +3,7 @@ import Sort from '../../components/sort/sort';
 import Header from '../../components/header/header';
 import CardsList from '../../components/card-list/card-list';
 import { OfferType } from '../../types/offer';
+import Map from '../../components/map/map';
 
 type AppScreenProps = {
   offersList: OfferType[];
@@ -24,6 +25,7 @@ function MainScreen({offersList}: AppScreenProps): JSX.Element {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" />
+              <Map offersList={offersList}/>
             </div>
           </div>
         </div>

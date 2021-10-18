@@ -9,7 +9,7 @@ type AppScreenProps = {
 
 function FavoritesPageScreen({offersList}: AppScreenProps): JSX.Element {
   const favoriteOffersList = offersList.filter((offer) => offer.isFavorite);
-  const uniqueSities = Array.from(new Set(favoriteOffersList.map(({city}) => city.name)));
+  const uniqueCities = Array.from(new Set(favoriteOffersList.map(({city}) => city.name)));
 
   return (
     <div className="page">
@@ -44,7 +44,7 @@ function FavoritesPageScreen({offersList}: AppScreenProps): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {uniqueSities.map((city) => <FavoritesList city={city} favoriteOffersList={favoriteOffersList} key={city}/>)}
+              {uniqueCities.map((city) => <FavoritesList city={city} favoriteOffersList={favoriteOffersList} key={city}/>)}
             </ul>
           </section>
         </div>
