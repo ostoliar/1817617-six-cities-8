@@ -1,8 +1,8 @@
-type AppScreenProps = {
+type OfferPropertyProps = {
     good: string;
   }
 
-function OfferProperty({good}: AppScreenProps): JSX.Element {
+function OfferProperty({good}: OfferPropertyProps): JSX.Element {
   return (
     <li className="property__inside-item">
       {good}

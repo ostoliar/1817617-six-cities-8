@@ -12,12 +12,12 @@ import { CommentType } from '../../types/comment';
 import OfferCard from '../../components/offer-card/offer-card';
 import { computeRatingWidth } from '../../utils';
 
-type AppScreenProps = {
+type OfferProps = {
   offersList: OfferType[];
   commentsList: CommentType[];
 }
 
-function Offer({offersList, commentsList}: AppScreenProps): JSX.Element {
+function Offer({offersList, commentsList}: OfferProps): JSX.Element {
   const {id: idUrl} = useParams<{id: string}>();
   const currentOffer = offersList.filter((offer) => offer.id === Number(idUrl));
   const otherOffer = offersList.filter((offer) => offer.id !== Number(idUrl));

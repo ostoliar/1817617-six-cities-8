@@ -1,8 +1,8 @@
-type AppScreenProps = {
+type OfferPropertyDescriptionProps = {
     text: string;
   }
 
-function OfferPropertyDescription({text}: AppScreenProps): JSX.Element {
+function OfferPropertyDescription({text}: OfferPropertyDescriptionProps): JSX.Element {
   return (
     <p className="property__text">
       {text}

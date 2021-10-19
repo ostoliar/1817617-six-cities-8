@@ -2,11 +2,11 @@ import OfferCard from '../offer-card/offer-card';
 import { OfferType } from '../../types/offer';
 import { useState } from 'react';
 
-type AppScreenProps = {
+type CardsListProps = {
   offersList: OfferType[];
 }
 
-function CardsList({offersList}: AppScreenProps): JSX.Element {
+function CardsList({offersList}: CardsListProps): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [activeOffer, setActiveOffer] = useState(0);
 

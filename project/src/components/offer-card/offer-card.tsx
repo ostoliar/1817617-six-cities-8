@@ -3,13 +3,13 @@ import { AppRoute, offerTypes } from '../../const';
 import { OfferType } from '../../types/offer';
 import { computeRatingWidth } from '../../utils';
 
-type AppScreenProps = {
+type OfferCardProps = {
   offer: OfferType;
   cardType: string;
   onHover?: (id: number) => void;
 }
 
-function OfferCard({offer, cardType, onHover}: AppScreenProps): JSX.Element {
+function OfferCard({offer, cardType, onHover}: OfferCardProps): JSX.Element {
   const {
     id,
     isFavorite,

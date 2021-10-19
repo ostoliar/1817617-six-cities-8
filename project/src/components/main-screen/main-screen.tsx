@@ -5,11 +5,11 @@ import CardsList from '../../components/card-list/card-list';
 import { OfferType } from '../../types/offer';
 import Map from '../../components/map/map';
 
-type AppScreenProps = {
+type MainScreenProps = {
   offersList: OfferType[];
 }
 
-function MainScreen({offersList}: AppScreenProps): JSX.Element {
+function MainScreen({offersList}: MainScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Header />

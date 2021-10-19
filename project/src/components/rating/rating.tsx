@@ -1,11 +1,11 @@
 import { ChangeEvent } from 'react';
 
-type AppScreenProps = {
+type RatingProps = {
   starNumber: number;
   onChangeRating: (evt: ChangeEvent<HTMLInputElement>) => void;
 }
 
-function Rating({starNumber, onChangeRating}: AppScreenProps): JSX.Element {
+function Rating({starNumber, onChangeRating}: RatingProps): JSX.Element {
   return (
     <>
       <input

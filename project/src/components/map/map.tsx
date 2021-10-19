@@ -5,7 +5,7 @@ import { OfferType } from '../../types/offer';
 import { DEFAULT_MARKER_URL } from '../../const';
 import { Icon, Marker } from 'leaflet';
 
-type AppScreenProps = {
+type MapProps = {
   offersList: OfferType[];
 }
 
@@ -15,7 +15,7 @@ const defaultCustomIcon = new Icon({
   iconAnchor: [13, 40],
 });
 
-function Map({offersList}: AppScreenProps): JSX.Element {
+function Map({offersList}: MapProps): JSX.Element {
   const {city} = offersList[0];
 
   const mapRef = useRef(null);
