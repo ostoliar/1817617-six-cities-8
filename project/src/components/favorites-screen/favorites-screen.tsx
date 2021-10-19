@@ -3,11 +3,11 @@ import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import { OfferType } from '../../types/offer';
 
-type AppScreenProps = {
+type FavoritesPageScreenProps = {
   offersList: OfferType[];
 }
 
-function FavoritesPageScreen({offersList}: AppScreenProps): JSX.Element {
+function FavoritesPageScreen({offersList}: FavoritesPageScreenProps): JSX.Element {
   const favoriteOffersList = offersList.filter((offer) => offer.isFavorite);
   const uniqueCities = Array.from(new Set(favoriteOffersList.map(({city}) => city.name)));
 

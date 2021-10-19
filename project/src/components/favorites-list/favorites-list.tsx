@@ -1,12 +1,12 @@
 import { OfferType } from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
 
-type AppScreenProps = {
+type FavoritesListProps = {
   city: string;
   favoriteOffersList: OfferType[];
 }
 
-function FavoritesList(props: AppScreenProps): JSX.Element {
+function FavoritesList(props: FavoritesListProps): JSX.Element {
   const {city, favoriteOffersList} = props;
   const cityOffersList = favoriteOffersList.filter((offer) => offer.city.name === city);
 

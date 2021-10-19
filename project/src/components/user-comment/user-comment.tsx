@@ -2,11 +2,11 @@ import { CommentType } from '../../types/comment';
 import { computeRatingWidth } from '../../utils';
 import { formatDateYYYYMMDD, formatDateMMMMYYYY } from '../../utils';
 
-type AppScreenProps = {
+type UserCommentProps = {
   comment: CommentType;
 }
 
-function UserComment({comment}: AppScreenProps): JSX.Element {
+function UserComment({comment}: UserCommentProps): JSX.Element {
   const {
     comment: commentText,
     date,
