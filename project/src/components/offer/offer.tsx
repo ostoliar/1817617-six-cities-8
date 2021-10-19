@@ -1,16 +1,18 @@
 import { useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
-import CommentForm from '../../components/comment-form/comment-form';
 import { OfferType } from '../../types/offer';
 import UserStatus from '../../components/user-status/user-status';
 import OfferImage from '../../components/offer-image/offer-image';
 import { offerTypes } from '../../const';
 import OfferProperty from '../../components/offer-property/offer-property';
-import OfferPropertyDescription from '../../components/offer-property-description/offer-property-description';
-import UserComment from '../../components/user-comment/user-comment';
 import { CommentType } from '../../types/comment';
 import OfferCard from '../../components/offer-card/offer-card';
 import { computeRatingWidth } from '../../utils';
+import OfferHost from '../../components/offer-host/offer-host';
+import Map from '../../components/map/map';
+import OfferComment from '../../components/offer-comment/offer-comment';
+
+const NEAR_OFFERS_COUNT = 3;
 
 type OfferProps = {
   offersList: OfferType[];
@@ -20,7 +22,7 @@ type OfferProps = {
 function Offer({offersList, commentsList}: OfferProps): JSX.Element {
   const {id: idUrl} = useParams<{id: string}>();
   const currentOffer = offersList.filter((offer) => offer.id === Number(idUrl));
-  const otherOffer = offersList.filter((offer) => offer.id !== Number(idUrl));
+  const otherOffer = offersList.filter((offer) => offer.id !== Number(idUrl)).slice(0, NEAR_OFFERS_COUNT);
   const currentComments = commentsList.filter((comment) => comment.id === Number(idUrl));
   const [{
     bedrooms,
@@ -35,8 +37,6 @@ function Offer({offersList, commentsList}: OfferProps): JSX.Element {
     rating,
     title,
     type}] = currentOffer;
-  const {avatarUrl, isPro, name} = host;
-  const descriptionTexts = description.split('\n');
 
   return (
     <div className="page">
@@ -103,34 +103,13 @@ function Offer({offersList, commentsList}: OfferProps): JSX.Element {
                   {goods.map((good) => <OfferProperty good={good} key={good}/>)}
                 </ul>
               </div>
-              <div className="property__host">
-                <h2 className="property__host-title">Meet the host</h2>
-                <div className="property__host-user user">
-                  <div className={`property__avatar-wrapper ${isPro && 'property__avatar-wrapper--pro'} user__avatar-wrapper`}>
-                    <img className="property__avatar user__avatar" src={avatarUrl} width="74" height="74" alt="Host avatar" />
-                  </div>
-                  <span className="property__user-name">
-                    {name}
-                  </span>
-                  {isPro &&
-                  <span className="property__user-status">
-                    Pro
-                  </span>}
-                </div>
-                <div className="property__description">
-                  {descriptionTexts.map((text) => <OfferPropertyDescription text={text} key={text} />)}
-                </div>
-              </div>
-              <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{currentComments.length}</span></h2>
-                <ul className="reviews__list">
-                  {currentComments.map((comment) => <UserComment comment={comment} key={comment.id} />)}
-                </ul>
-                <CommentForm />
-              </section>
+              <OfferHost host={host} description={description}/>
+              <OfferComment currentComments={currentComments} />
             </div>
           </div>
-          <section className="property__map map"></section>
+          <section className="property__map map">
+            <Map offersList={otherOffer}/>
+          </section>
         </section>
         <div className="container">
           <section className="near-places places">
