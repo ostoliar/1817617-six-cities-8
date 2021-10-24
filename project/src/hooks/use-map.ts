@@ -27,8 +27,13 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City): Map |
       instance.addLayer(layer);
 
       setMap(instance);
+    } else {
+      map?.setView({
+        lat: location.latitude,
+        lng: location.longitude,
+      }, location.zoom);
     }
-  }, [mapRef, map, location]);
+  }, [mapRef, map, location, city]);
 
   return map;
 }

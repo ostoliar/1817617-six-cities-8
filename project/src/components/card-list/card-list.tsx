@@ -7,18 +7,24 @@ type CardsListProps = {
 }
 
 function CardsList({offersList}: CardsListProps): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [activeOffer, setActiveOffer] = useState(0);
+  const [ , setActiveOffer ] = useState<number | null>(null);
 
-  const onHover = (id: number | undefined) => {
-    if(id) {
-      setActiveOffer(id);
-    }
+  const handleHover = (id: number | null) => {
+    setActiveOffer(id);
   };
 
   return (
     <div className="cities__places-list places__list tabs__content">
-      {offersList.map((offer) => <OfferCard offer={offer} cardType="cardsList" onHover={onHover} key={offer.id}/>)}
+      {offersList
+        .map((offer) =>
+          (
+            <OfferCard
+              offer={offer}
+              cardType="cardsList"
+              key={offer.id}
+              onHover={handleHover}
+            />
+          ))}
     </div>
   );
 }
