@@ -54,7 +54,7 @@ function FavoritesPageScreen({offersList}: FavoritesPageScreenProps): JSX.Elemen
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <FavoritesList
-              offersFavoriteListBySities={offersFavoriteListBySities}
+              offersFavoriteListByCities={offersFavoriteListBySities}
             />
           </section>
         </div>

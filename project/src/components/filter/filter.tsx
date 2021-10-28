@@ -5,7 +5,7 @@ import { changeCity } from '../../store/action';
 import { Actions } from '../../types/action';
 import { State } from '../../types/state';
 
-type AppScreenProps = {
+type FilterScreenProps = {
   cities: string[];
 }
 
@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & AppScreenProps;
+type ConnectedComponentProps = PropsFromRedux & FilterScreenProps;
 
 function Filter(props: ConnectedComponentProps): JSX.Element {
   const {cities, currentCity, onChangeCity} = props;

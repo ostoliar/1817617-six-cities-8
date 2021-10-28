@@ -1,17 +1,19 @@
-import Filter from '../../components/filter/filter';
-import Sort from '../../components/sort/sort';
-import Header from '../../components/header/header';
-import CardsList from '../../components/card-list/card-list';
+import Filter from '../filter/filter';
+import Sort from '../sort/sort';
+import Header from '../header/header';
+import CardsList from '../card-list/card-list';
 import { OfferType } from '../../types/offer';
-import Map from '../../components/map/map';
+import Map from '../map/map';
 
 type MainScreenProps = {
   cities: string[];
   offersList: OfferType[];
 }
 
+
 function MainScreen({cities, offersList}: MainScreenProps): JSX.Element {
   const [{ city: {name} }] = offersList;
+
   return (
     <div className="page page--gray page--main">
       <Header />
@@ -26,8 +28,9 @@ function MainScreen({cities, offersList}: MainScreenProps): JSX.Element {
               <CardsList offersList={offersList}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
-              <Map offersList={offersList}/>
+              <section className="cities__map map">
+                <Map offersList={offersList}/>
+              </section>
             </div>
           </div>
         </div>
@@ -35,4 +38,5 @@ function MainScreen({cities, offersList}: MainScreenProps): JSX.Element {
     </div>
   );
 }
+
 export default MainScreen;

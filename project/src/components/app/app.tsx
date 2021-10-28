@@ -5,11 +5,12 @@ import FavoritesPageScreen from '../favorites-screen/favorites-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import SignInScreen from '../sign-in-screen/sign-in-screen';
 import PrivateRoute from '../private-route/private-route';
-import Offer from '../offer/offer';
-import { OfferType} from '../../types/offer';
+import { OfferType } from '../../types/offer';
 import { CommentType } from '../../types/comment';
 import { State } from '../../types/state';
 import { connect, ConnectedProps } from 'react-redux';
+import Offer from '../offer/offer';
+
 
 type AppScreenProps = {
   cities: string[];
@@ -56,7 +57,6 @@ function App(props: ConnectedComponentProps): JSX.Element {
     </BrowserRouter>
   );
 }
-
 export { App };
 export default connector(App);
 

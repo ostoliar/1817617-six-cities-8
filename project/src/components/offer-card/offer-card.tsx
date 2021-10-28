@@ -9,7 +9,33 @@ type OfferCardProps = {
   onHover?: (id: number) => void;
 }
 
+const getClassNameComponent = (cardType: string) => {
+  switch(cardType) {
+    case 'cardsList':
+      return {
+        classModificatorArticle: 'cities__place-card',
+        classModificatorDivImageWrapper: 'cities__place-card',
+      };
+    case 'offer':
+      return {
+        classModificatorArticle: 'near-places__card',
+        classModificatorDivImageWrapper: 'near-places',
+      };
+    case 'favorites':
+      return {
+        classModificatorArticle: 'favorites__card',
+        classModificatorDivImageWrapper: 'favorites',
+        classModificatorDivPlaceCardInfo: 'favorites__card-info',
+        imageWidth: '150',
+        imageHeight: '110',
+      };
+    default:
+      throw new Error(`Unknouwn oreder state: '${cardType}'`);
+  }
+};
+
 function OfferCard({offer, cardType, onHover}: OfferCardProps): JSX.Element {
+
   const {
     id,
     isFavorite,
@@ -21,29 +47,8 @@ function OfferCard({offer, cardType, onHover}: OfferCardProps): JSX.Element {
     type,
   } = offer;
 
-  let classModificatorArticle = '';
-  let classModificatorDivImageWrapper = '';
-  let classModificatorDivPlaceCardInfo = '';
-  let imageWidth = '260';
-  let imageHeight = '200';
-
-  switch(cardType) {
-    case 'cardsList':
-      classModificatorArticle = 'cities__place-card';
-      classModificatorDivImageWrapper = 'cities__place-card';
-      break;
-    case 'offer':
-      classModificatorArticle = 'near-places';
-      classModificatorDivImageWrapper = 'cities';
-      break;
-    case 'favorites':
-      classModificatorArticle = 'favorites__card';
-      classModificatorDivImageWrapper = 'favorites';
-      classModificatorDivPlaceCardInfo = 'favorites__card-info';
-      imageWidth = '150';
-      imageHeight = '110';
-      break;
-  }
+  const getClassName = getClassNameComponent(cardType);
+  const { classModificatorArticle, classModificatorDivImageWrapper, classModificatorDivPlaceCardInfo, imageWidth = '260', imageHeight = '200' } = getClassName;
 
   return (
     <article
@@ -73,14 +78,16 @@ function OfferCard({offer, cardType, onHover}: OfferCardProps): JSX.Element {
           </div>
           <button className={`place-card__bookmark-button ${isFavorite && 'place-card__bookmark-button--active'} button`} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
+              <use xlinkHref="#icon-bookmark" />
             </svg>
-            <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
+            <span className="visually-hidden">
+              {isFavorite ? 'In bookmarks' : 'To bookmarks'}
+            </span>
           </button>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: computeRatingWidth(rating)}}></span>
+            <span style={{width: computeRatingWidth(rating)}} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

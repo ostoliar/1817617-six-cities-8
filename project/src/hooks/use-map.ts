@@ -1,13 +1,18 @@
 import { MutableRefObject, useEffect, useState } from 'react';
-import {Map, TileLayer} from 'leaflet';
+import { Map, TileLayer } from 'leaflet';
 import { City } from '../types/offer';
+
+export const MAP_TAILE_LAYER = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+
+export const MAP_TAILE_LAYER_ATTRIBUTIONS = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+
 
 function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City): Map | null {
   const {location} = city;
-  const [map, setMap] = useState< Map | null>(null);
+  const [map, setMap] = useState<Map | null>(null);
 
   useEffect(() => {
-    if(mapRef.current !== null && map === null) {
+    if (mapRef.current !== null && map === null) {
       const instance = new Map(mapRef.current, {
         center: {
           lat: location.latitude,
@@ -17,10 +22,10 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City): Map |
       });
 
       const layer = new TileLayer(
-        'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+        MAP_TAILE_LAYER,
         {
           attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+          MAP_TAILE_LAYER_ATTRIBUTIONS,
         },
       );
 
