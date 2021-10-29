@@ -1,16 +1,16 @@
 import { useParams } from 'react-router-dom';
-import Logo from '../../components/logo/logo';
+import Logo from '../logo/logo';
 import { OfferType } from '../../types/offer';
-import UserStatus from '../../components/user-status/user-status';
-import OfferImage from '../../components/offer-image/offer-image';
+import UserStatus from '../user-status/user-status';
+import OfferImage from '../offer-image/offer-image';
 import { offerTypes } from '../../const';
-import OfferProperty from '../../components/offer-property/offer-property';
+import OfferProperty from '../offer-property/offer-property';
 import { CommentType } from '../../types/comment';
-import OfferCard from '../../components/offer-card/offer-card';
+import OfferCard from '../offer-card/offer-card';
 import { computeRatingWidth } from '../../utils';
-import OfferHost from '../../components/offer-host/offer-host';
-import Map from '../../components/map/map';
-import OfferComment from '../../components/offer-comment/offer-comment';
+import OfferHost from '../offer-host/offer-host';
+import Map from '../map/map';
+import OfferComment from '../offer-comment/offer-comment';
 
 const NEAR_OFFERS_COUNT = 3;
 
@@ -22,7 +22,7 @@ type OfferProps = {
 function Offer({offersList, commentsList}: OfferProps): JSX.Element {
   const {id: idUrl} = useParams<{id: string}>();
   const currentOffer = offersList.filter((offer) => offer.id === Number(idUrl));
-  const otherOffer = offersList.filter((offer) => offer.id !== Number(idUrl)).slice(0, NEAR_OFFERS_COUNT);
+  const otherOffers = offersList.filter((offer) => offer.id !== Number(idUrl)).slice(0, NEAR_OFFERS_COUNT);
   const currentComments = commentsList.filter((comment) => comment.id === Number(idUrl));
   const [{
     bedrooms,
@@ -53,17 +53,14 @@ function Offer({offersList, commentsList}: OfferProps): JSX.Element {
 
       <main className="page__main page__main--property">
         <section className="property">
-          <div className="property__gallery-container container">
-            <div className="property__gallery">
-              {images.map((image) => <OfferImage image={image} key={image}/>)}
-            </div>
-          </div>
+          <OfferImage images={images}/>
           <div className="property__container container">
             <div className="property__wrapper">
-              {isPremium &&
-              <div className="property__mark">
-                <span>Premium</span>
-              </div>}
+              {isPremium && (
+                <div className="property__mark">
+                  <span>Premium</span>
+                </div>
+              )}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
                   {title}
@@ -108,14 +105,14 @@ function Offer({offersList, commentsList}: OfferProps): JSX.Element {
             </div>
           </div>
           <section className="property__map map">
-            <Map offersList={otherOffer}/>
+            <Map offersList={otherOffers}/>
           </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {otherOffer.map((offer) => <OfferCard offer={offer} cardType="offer" key={offer.id}/>)}
+              {otherOffers.map((offer) => <OfferCard offer={offer} cardType="offer" key={offer.id}/>)}
             </div>
           </section>
         </div>
@@ -123,5 +120,4 @@ function Offer({offersList, commentsList}: OfferProps): JSX.Element {
     </div>
   );
 }
-
 export default Offer;

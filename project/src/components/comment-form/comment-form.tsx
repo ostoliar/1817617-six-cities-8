@@ -1,19 +1,19 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import Rating from '../rating/rating';
-import { STARS_COUNT_RATING } from '../../const';
+import { valueRating } from '../../const';
 
 function CommentForm(): JSX.Element {
-  const [comment, setComment] = useState({
+  const [state, setState] = useState({
     rating: '0',
     review: '',
   });
 
-  const {review} = comment;
+  const {review} = state;
 
-  const onChangeComment = (evt: ChangeEvent<{name: string, value: string}>) => {
+  const handleChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = evt.target;
 
-    setComment((prevState) => ({
+    setState((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -32,7 +32,14 @@ function CommentForm(): JSX.Element {
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {(Array.from({length: STARS_COUNT_RATING}, (_, number) => number + 1)).reverse().map((item) => <Rating starNumber={item} onChangeRating={onChangeComment} key={item}/>)}
+        {Object.keys(valueRating).reverse().map((key) => (
+          <Rating
+            starNumber={key}
+            title={valueRating[key]}
+            key={key}
+            onChangeRating={handleChange}
+          />
+        ))}
       </div>
       <textarea
         className="reviews__textarea form__textarea"
@@ -40,7 +47,7 @@ function CommentForm(): JSX.Element {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={review}
-        onChange={(evt: ChangeEvent<HTMLTextAreaElement>) => onChangeComment(evt)}
+        onChange={handleChange}
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -52,5 +59,4 @@ function CommentForm(): JSX.Element {
     </form>
   );
 }
-
 export default CommentForm;

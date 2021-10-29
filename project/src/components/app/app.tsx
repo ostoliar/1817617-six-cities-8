@@ -5,45 +5,58 @@ import FavoritesPageScreen from '../favorites-screen/favorites-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import SignInScreen from '../sign-in-screen/sign-in-screen';
 import PrivateRoute from '../private-route/private-route';
-import Offer from '../offer/offer';
-import { OfferType} from '../../types/offer';
+import { OfferType } from '../../types/offer';
 import { CommentType } from '../../types/comment';
+import { State } from '../../types/state';
+import { connect, ConnectedProps } from 'react-redux';
+import Offer from '../offer/offer';
+
 
 type AppScreenProps = {
-  offersList: OfferType[];
+  cities: string[];
   commentsList: CommentType[];
 }
 
-function App({offersList, commentsList} : AppScreenProps): JSX.Element {
+const getOfferListByCity = (offers: OfferType[], city: string): OfferType[] => offers.filter((offer) => offer.city.name === city);
+
+const mapStateToProps = ({ currentCity, offers }: State) => ({
+  currentCity,
+  offers,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & AppScreenProps;
+
+function App(props: ConnectedComponentProps): JSX.Element {
+  const { cities, commentsList, currentCity, offers } = props;
+  const offersList = getOfferListByCity(offers, currentCity);
+
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <MainScreen
-            offersList={offersList}
-          />
+          <MainScreen cities={cities} offersList={offersList}/>
         </Route>
         <Route exact path={AppRoute.SignIn}>
           <SignInScreen />
         </Route>
-        <Route path={`${AppRoute.Room}/:id`}>
-          <Offer offersList={offersList} commentsList={commentsList}/>
-        </Route>
         <PrivateRoute
           exact
           path={AppRoute.Favorites}
-          render={() => <FavoritesPageScreen offersList={offersList} />}
+          render = {() => <FavoritesPageScreen offersList={offersList}/>}
           authorizationStatus={AuthorizationStatus.Auth}
         >
         </PrivateRoute>
-        <Route>
-          <NotFoundScreen />
+        <Route exact path={`${AppRoute.Room}/:id`}>
+          <Offer offersList={offersList} commentsList={commentsList} />
         </Route>
-
+        <Route exact component={NotFoundScreen}/>
       </Switch>
     </BrowserRouter>
   );
 }
-
-export default App;
+export { App };
+export default connector(App);
 

@@ -8,8 +8,18 @@ type FavoritesPageScreenProps = {
 }
 
 function FavoritesPageScreen({offersList}: FavoritesPageScreenProps): JSX.Element {
-  const favoriteOffersList = offersList.filter((offer) => offer.isFavorite);
-  const uniqueCities = Array.from(new Set(favoriteOffersList.map(({city}) => city.name)));
+  const offersFavoriteListBySities = offersList
+    .reduce((acc:{[key: string]: OfferType[]}, offer) => {
+      if(!acc[offer.city.name] && offer.isFavorite) {
+        acc[offer.city.name] = [];
+      }
+
+      if(offer.isFavorite){
+        (acc[offer.city.name]).push(offer);
+      }
+
+      return acc;
+    }, {});
 
   return (
     <div className="page">
@@ -43,9 +53,9 @@ function FavoritesPageScreen({offersList}: FavoritesPageScreenProps): JSX.Elemen
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              {uniqueCities.map((city) => <FavoritesList city={city} favoriteOffersList={favoriteOffersList} key={city}/>)}
-            </ul>
+            <FavoritesList
+              offersFavoriteListByCities={offersFavoriteListBySities}
+            />
           </section>
         </div>
       </main>

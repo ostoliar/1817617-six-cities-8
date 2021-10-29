@@ -2,27 +2,32 @@ import { OfferType } from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
 
 type FavoritesListProps = {
-  city: string;
-  favoriteOffersList: OfferType[];
+  offersFavoriteListByCities: {[key: string]: OfferType[]};
 }
 
-function FavoritesList(props: FavoritesListProps): JSX.Element {
-  const {city, favoriteOffersList} = props;
-  const cityOffersList = favoriteOffersList.filter((offer) => offer.city.name === city);
-
+function FavoritesList({offersFavoriteListByCities}: FavoritesListProps): JSX.Element {
   return (
-    <li className="favorites__locations-items">
-      <div className="favorites__locations locations locations--current">
-        <div className="locations__item">
-          <a className="locations__item-link" href="/#">
-            <span>{city}</span>
-          </a>
-        </div>
-      </div>
-      <div className="favorites__places">
-        {cityOffersList.map((offer) => <OfferCard offer={offer} cardType="favorites" key={offer.id} />)}
-      </div>
-    </li>);
+    <ul className="favorites__list">
+      {Object.keys(offersFavoriteListByCities)
+        .map((city) => (
+          <li className="favorites__locations-items" key={city}>
+            <div className="favorites__locations locations locations--current">
+              <div className="locations__item">
+                <a className="locations__item-link" href="/#">
+                  <span>{city}</span>
+                </a>
+              </div>
+            </div>
+            <div className="favorites__places">
+              {offersFavoriteListByCities[city]
+                .map((offer) =>
+                  <OfferCard offer={offer} cardType="favorites" key={offer.id} />)}
+            </div>
+          </li>
+        ))}
+    </ul>
+  );
 }
+
 
 export default FavoritesList;
