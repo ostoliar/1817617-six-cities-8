@@ -10,3 +10,9 @@ export const loadOfferList = (offers: OfferType[]) => ({
   type: ActionType.LoadOfferList,
   payload: offers,
 } as const);
+
+export const selectCurrentOffer = (offer: OfferType | null) => ({
+  type: ActionType.SelectCurrentOffer,
+  payload: offer,
+} as const);
+

@@ -1,7 +1,12 @@
 import { Link } from 'react-router-dom';
+import { Dispatch } from 'redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { AppRoute, offerTypes } from '../../const';
 import { OfferType } from '../../types/offer';
 import { computeRatingWidth } from '../../utils';
+import { selectCurrentOffer } from '../../store/action';
+import { Actions } from '../../types/action';
+import { State } from '../../types/state';
 
 type OfferCardProps = {
   offer: OfferType;
@@ -34,7 +39,24 @@ const getClassNameComponent = (cardType: string) => {
   }
 };
 
-function OfferCard({offer, cardType, onHover}: OfferCardProps): JSX.Element {
+const mapStateToProps = ({currentCity, offers, currentOffer}: State) => ({
+  currentCity,
+  offers,
+  currentOffer,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onSelectOffer(offer: OfferType | null) {
+    dispatch(selectCurrentOffer(offer));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & OfferCardProps;
+
+function OfferCard({offer, cardType, onHover, currentOffer, onSelectOffer}: ConnectedComponentProps): JSX.Element {
 
   const {
     id,
@@ -53,7 +75,8 @@ function OfferCard({offer, cardType, onHover}: OfferCardProps): JSX.Element {
   return (
     <article
       className={`${classModificatorArticle} place-card`}
-      onMouseOver={() => (onHover) ? onHover(id) : undefined}
+      onMouseEnter={() => onSelectOffer ? onSelectOffer(offer) : undefined}
+      onMouseLeave={() => onSelectOffer ? onSelectOffer(null) : undefined}
     >
       {isPremium &&
       <div className="place-card__mark">
@@ -100,4 +123,5 @@ function OfferCard({offer, cardType, onHover}: OfferCardProps): JSX.Element {
   );
 }
 
-export default OfferCard;
+export { OfferCard };
+export default connector(OfferCard);
