@@ -10,6 +10,7 @@ import { CommentType } from '../../types/comment';
 import { State } from '../../types/state';
 import { connect, ConnectedProps } from 'react-redux';
 import Offer from '../offer/offer';
+import Spinner from '../spinner/spinner';
 
 
 type AppScreenProps = {
@@ -17,11 +18,12 @@ type AppScreenProps = {
   commentsList: CommentType[];
 }
 
-const getOfferListByCity = (offers: OfferType[], city: string): OfferType[] => offers.filter((offer) => offer.city.name === city);
+export const getOfferListByCity = (offers: OfferType[], city: string): OfferType[] => offers.filter((offer) => offer.city.name === city);
 
-const mapStateToProps = ({ currentCity, offers }: State) => ({
+const mapStateToProps = ({currentCity, offers, offersLoading}: State) => ({
   currentCity,
   offers,
+  offersLoading,
 });
 
 const connector = connect(mapStateToProps);
@@ -30,8 +32,14 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & AppScreenProps;
 
 function App(props: ConnectedComponentProps): JSX.Element {
-  const { cities, commentsList, currentCity, offers } = props;
+  const {cities, commentsList, currentCity, offers, offersLoading} = props;
   const offersList = getOfferListByCity(offers, currentCity);
+
+  if (offersLoading) {
+    return (
+      <Spinner />
+    );
+  }
 
   return (
     <BrowserRouter>
@@ -57,6 +65,6 @@ function App(props: ConnectedComponentProps): JSX.Element {
     </BrowserRouter>
   );
 }
+
 export { App };
 export default connector(App);
-

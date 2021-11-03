@@ -39,3 +39,9 @@ export const valueRating: valueRatingType = {
   '2': 'badly',
   '1': 'terribly',
 };
+
+export enum APIRoutes {
+  Hotels = '/hotels',
+  Login = '/login',
+  Logout='/logout',
+}

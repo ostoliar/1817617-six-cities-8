@@ -63,5 +63,4 @@ function FavoritesPageScreen({offersList}: FavoritesPageScreenProps): JSX.Elemen
     </div>
   );
 }
-
 export default FavoritesPageScreen;

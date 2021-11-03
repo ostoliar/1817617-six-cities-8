@@ -122,6 +122,5 @@ function OfferCard({offer, cardType, onHover, currentOffer, onSelectOffer}: Conn
     </article>
   );
 }
-
 export { OfferCard };
 export default connector(OfferCard);

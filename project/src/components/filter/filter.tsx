@@ -42,7 +42,7 @@ function Filter(props: ConnectedComponentProps): JSX.Element {
               return (
                 <li className="locations__item" key={city}>
                   <a href="/#"
-                    className={ `locations__item-link tabs__item 
+                    className={ `locations__item-link tabs__item
                       ${classNameActive}` }
                     onClick={() => onChangeCity(city)}
                   >
