@@ -47,6 +47,7 @@ function Offer(): JSX.Element {
       dispatch(fetchNearbyOffersAction(idUrl));
       dispatch(fetchOfferCommentsAction(idUrl));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, idUrl]);
 
   useEffect(() => () => {

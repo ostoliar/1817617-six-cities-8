@@ -41,6 +41,7 @@ export const checkAuthAction = (): ThunkActionResult => (
         adaptUserToClient(data)),
       );
       dispatch(checkAuthSuccess());
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(checkAuthFailure(error.toString()));
     }
@@ -62,6 +63,7 @@ export const loginAction = (
       );
       dispatch(loginSuccess());
       dispatch(fetchOffersAction());
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(loginFailure(error.toString()));
       toast.warn(ErrorTexts.LOGIN_FAIL_MESSAGE);
@@ -77,6 +79,7 @@ export const logoutAction = (): ThunkActionResult => (
       dropToken();
       dispatch(requireLogout());
       dispatch(logoutSuccess());
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(logoutFailure(error.toString()));
     }

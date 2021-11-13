@@ -88,6 +88,7 @@ export const fetchOffersAction = (): ThunkActionResult => (
       const {data} = await api.get(APIRoutes.Hotels);
       dispatch(loadOfferList(adaptArrayToClient(data)));
       dispatch(loadOffersSuccess());
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(loadOffersFailure(error.response.status));
     }
@@ -100,6 +101,7 @@ export const fetchOfferByIdAction = (id: string): ThunkActionResult => (
     try {
       const {data} = await api.get(`${APIRoutes.Hotels}/${id}`);
       dispatch(loadOfferByIdSuccess(adaptToClient(data)));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(loadOfferByIdFailure(error.response.status));
       if (error.response.status !== 404) {
@@ -117,6 +119,7 @@ export const fetchNearbyOffersAction = (id: string): ThunkActionResult => (
         `${APIRoutes.Hotels}/${id}${APIRoutes.Nearby}`,
       );
       dispatch(loadOffersNearbySuccess(adaptArrayToClient(data)));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(loadOffersNearbyFailure(error.toString()));
       toast.warn(ErrorTexts.FETCH_NEARBY_OFFER_FAIL_MESSAGE);
@@ -130,6 +133,7 @@ export const fetchOfferCommentsAction = (id: string): ThunkActionResult => (
     try {
       const {data} = await api.get(`${APIRoutes.Comments}/${id}`);
       dispatch(loadOfferCommentsSuccess(adaptCommentsToClient(data)));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(loadOfferCommentsFailure(error.toString()));
       toast.warn(ErrorTexts.FETCH_REVIEW_FAIL_MESSAGE);
@@ -148,6 +152,7 @@ export const commentAction = (
         {rating, comment},
       );
       dispatch(postOfferCommentSuccess(adaptCommentsToClient(data)));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(postOfferCommentFailure(error.toString()));
       toast.warn(ErrorTexts.POST_REVIEW_FAIL_MESSAGE);
@@ -161,6 +166,7 @@ export const fetchFavoritesAction = (): ThunkActionResult => (
     try {
       const {data} = await api.get(APIRoutes.Favorite);
       dispatch(fetchFavoriteSuccess(adaptArrayToClient(data)));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(fetchFavoriteFailure(error.toString()));
       toast.warn(ErrorTexts.FETCH_FAVORITE_MESSAGE);
@@ -175,6 +181,7 @@ export const favoriteAction = (id: number, status: boolean): ThunkActionResult =
       await api.post(
         `${APIRoutes.Favorite}/${id}/${Number(status)}`);
       dispatch(postFavoriteSuccess(id, status));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(postFavoriteFailure(error.toString()));
       toast.warn(ErrorTexts.POST_FAVORITE_MESSAGE);
