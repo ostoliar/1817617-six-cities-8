@@ -1,36 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {applyMiddleware, createStore} from 'redux';
-import thunk from 'redux-thunk';
-import {composeWithDevTools} from 'redux-devtools-extension';
+import {configureStore} from '@reduxjs/toolkit';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import App from './components/app/app';
-import {comments} from './mock/reviews';
-import { reducer } from './store/reducer';
-import {AuthorizationStatus, cities} from './const';
+import {rootReducer} from './store/reducer/root-reducer';
+import {AuthorizationStatus} from './const';
 import {createAPI} from './components/services/api';
-import {requireAuthorization} from './store/action';
-import {checkAuthAction, fetchOfferAction} from './store/api-action';
-import {ThunkAppDispatch} from './types/action';
+import {requireAuthorization} from './store/reducer/user/actions';
+import {checkAuthAction} from './store/reducer/user/api-actions';
+import {fetchOffersAction} from './store/reducer/data/api-actions';
 
 const api = createAPI(
   () => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)),
 );
 
-const store = createStore(
-  reducer,
-  composeWithDevTools(
-    applyMiddleware(thunk.withExtraArgument(api)),
-  ),
-);
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: api,
+      },
+    }),
+});
 
-(store.dispatch as ThunkAppDispatch)(checkAuthAction());
-(store.dispatch as ThunkAppDispatch)(fetchOfferAction());
+(store.dispatch)(checkAuthAction());
+(store.dispatch)(fetchOffersAction());
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App cities={cities} commentsList={comments} />
+      <ToastContainer />
+      <App />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));

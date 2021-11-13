@@ -1,9 +1,9 @@
 import ReactLoaderSpinner from 'react-loader-spinner';
-import styles from './spinner.module.css';
+import styles from './loader.module.css';
 
-function Spinner(): JSX.Element {
+function Loader(): JSX.Element {
   return (
-    <div className={styles.spinner}>
+    <div className={styles.loader}>
       <ReactLoaderSpinner
         type="Watch"
         color="#4481c3"
@@ -14,4 +14,4 @@ function Spinner(): JSX.Element {
   );
 }
 
-export default Spinner;
+export default Loader;

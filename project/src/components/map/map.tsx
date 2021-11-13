@@ -1,10 +1,10 @@
+import {useEffect, useRef} from 'react';
+import {useSelector} from 'react-redux';
+import {Icon, LayerGroup, Marker} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { useEffect, useRef } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
 import useMap from '../../hooks/use-map';
-import { OfferType } from '../../types/offer';
-import { Icon, Marker, LayerGroup } from 'leaflet';
-import { State } from '../../types/state';
+import {OfferType} from '../../types/offer';
+import {selectSelectedOffer} from '../../store/reducer/app/selectors';
 
 export const URL_MARKER_DEFAULT = 'img/pin.svg';
 export const URL_MARKER_SELECT = 'img/pin-active.svg';
@@ -21,23 +21,13 @@ const selectCustomIcon = new Icon({
   iconAnchor: [13, 40],
 });
 
-type MapProps = {
+type AppScreenProps = {
   offersList: OfferType[];
 }
 
-const mapStateToProps = ({currentCity, offers, currentOffer}: State) => ({
-  currentCity,
-  offers,
-  currentOffer,
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & MapProps;
-
-function Map({offersList, currentOffer}: ConnectedComponentProps): JSX.Element {
-  const [{ city }] = offersList;
+function Map({offersList}: AppScreenProps): JSX.Element {
+  const selectedOffer = useSelector(selectSelectedOffer);
+  const [{city}] = offersList;
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
   const markerLayerRef = useRef<LayerGroup>();
@@ -60,7 +50,7 @@ function Map({offersList, currentOffer}: ConnectedComponentProps): JSX.Element {
 
           marker
             .setIcon(
-              offer.id === currentOffer?.id
+              offer.id === selectedOffer?.id
                 ? selectCustomIcon
                 : defaultCustomIcon,
             )
@@ -69,7 +59,7 @@ function Map({offersList, currentOffer}: ConnectedComponentProps): JSX.Element {
       }
 
     }
-  }, [currentOffer?.id, map, offersList]);
+  }, [selectedOffer?.id, map, offersList]);
 
   return (
     <div
@@ -80,5 +70,4 @@ function Map({offersList, currentOffer}: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export { Map };
-export default connector(Map);
+export default Map;

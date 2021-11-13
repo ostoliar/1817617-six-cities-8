@@ -1,6 +1,6 @@
-import { CommentType } from '../../types/comment';
-import { computeRatingWidth } from '../../utils';
-import { formatDateYYYYMMDD, formatDateMMMMYYYY } from '../../utils';
+import {CommentType} from '../../types/comment';
+import {computeRatingWidth} from '../../utils';
+import {formatDateYYYYMMDD, formatDateMMMMYYYY} from '../../utils';
 
 type AppScreenProps = {
   comment: CommentType;

@@ -1,15 +1,14 @@
-import { useState } from 'react';
 import cn from 'classnames';
+import {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {changeSort} from '../../store/reducer/app/actions';
+import {offerSortTypes} from '../../const';
+import {selectSelectedSort} from '../../store/reducer/app/selectors';
 
-type AppScreenProps = {
-  offerSortTypes: {[key: string]: string,};
-  handleChangeSortType: (sortType: string) => void;
-  selectSortType: string;
-}
-
-function Sort({offerSortTypes, handleChangeSortType, selectSortType}: AppScreenProps): JSX.Element {
+function OfferSort(): JSX.Element {
   const [isOpenSortList, setOpenSortList] = useState(false);
-
+  const dispatch = useDispatch();
+  const selectedSort = useSelector(selectSelectedSort);
 
   const ulClass = cn(
     'places__options places__options--custom',
@@ -24,7 +23,7 @@ function Sort({offerSortTypes, handleChangeSortType, selectSortType}: AppScreenP
 
   const handleSortType = (sortType: string) => {
     setOpenSortList(!isOpenSortList);
-    handleChangeSortType(sortType);
+    dispatch(changeSort(sortType));
   };
 
   return (
@@ -39,7 +38,7 @@ function Sort({offerSortTypes, handleChangeSortType, selectSortType}: AppScreenP
         tabIndex={0}
         onClick={handleClickIconArrow}
       >
-      &nbsp;{selectSortType}&nbsp;
+      &nbsp;{selectedSort}&nbsp;
         <svg
           className="places__sorting-arrow"
           width="7"
@@ -53,7 +52,7 @@ function Sort({offerSortTypes, handleChangeSortType, selectSortType}: AppScreenP
           const liActive = cn(
             'places__option',
             {
-              'places__option--active': offerSortTypes[key] === selectSortType,
+              'places__option--active': offerSortTypes[key] === selectedSort,
             });
 
           return (
@@ -72,4 +71,4 @@ function Sort({offerSortTypes, handleChangeSortType, selectSortType}: AppScreenP
   );
 }
 
-export default Sort;
+export default OfferSort;

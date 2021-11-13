@@ -1,13 +1,21 @@
+import {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import cn from 'classnames';
 import FavoritesList from '../../components/favorites-list/favorites-list';
 import Footer from '../../components/footer/footer';
-import Logo from '../../components/logo/logo';
-import { OfferType } from '../../types/offer';
+import Header from '../../components/header/header';
+import {fetchFavoritesAction} from '../../store/reducer/data/api-actions';
+import {selectFavoriteOffers} from '../../store/reducer/data/selectors';
+import {OfferType} from '../../types/offer';
 
-type FavoritesPageScreenProps = {
-  offersList: OfferType[];
-}
+function Favorites(): JSX.Element {
+  const offersList = useSelector(selectFavoriteOffers);
+  const dispatch = useDispatch();
 
-function FavoritesPageScreen({offersList}: FavoritesPageScreenProps): JSX.Element {
+  useEffect(() => {
+    dispatch(fetchFavoritesAction());
+  }, [dispatch]);
+
   const offersFavoriteListBySities = offersList
     .reduce((acc:{[key: string]: OfferType[]}, offer) => {
       if(!acc[offer.city.name] && offer.isFavorite) {
@@ -21,46 +29,38 @@ function FavoritesPageScreen({offersList}: FavoritesPageScreenProps): JSX.Elemen
       return acc;
     }, {});
 
-  return (
-    <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="/#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="/#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+  const pageCls = cn('page', {'page--favorites-empty': offersList.length > 0});
+  const pageMainCls = cn('page__main page__main--favorites', {'page__main--favorites-empty': offersList.length > 0});
 
-      <main className="page__main page__main--favorites">
+  return (
+    <div className={pageCls}>
+      <Header />
+
+      <main className={pageMainCls}>
         <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList
-              offersFavoriteListByCities={offersFavoriteListBySities}
-            />
-          </section>
+          {offersList.length > 0
+            ? (
+              <section className="favorites">
+                <h1 className="favorites__title">Saved listing</h1>
+                <FavoritesList
+                  offersFavoriteListByCities={offersFavoriteListBySities}
+                />
+              </section>
+            )
+            : (
+              <section className="favorites favorites--empty">
+                <h1 className="visually-hidden">Favorites (empty)</h1>
+                <div className="favorites__status-wrapper">
+                  <b className="favorites__status">Nothing yet saved.</b>
+                  <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.</p>
+                </div>
+              </section>
+            )}
         </div>
       </main>
       <Footer />
     </div>
   );
 }
-export default FavoritesPageScreen;
+
+export default Favorites;

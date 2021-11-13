@@ -1,32 +1,13 @@
 import cn from 'classnames';
-import { connect, ConnectedProps } from 'react-redux';
-import { Dispatch } from 'redux';
-import { changeCity } from '../../store/action';
-import { Actions } from '../../types/action';
-import { State } from '../../types/state';
+import {useDispatch, useSelector} from 'react-redux';
+import {changeCity} from '../../store/reducer/app/actions';
+import {selectCurrentCity} from '../../store/reducer/app/selectors';
+import {selectCities} from '../../store/reducer/data/selectors';
 
-type FilterScreenProps = {
-  cities: string[];
-}
-
-const mapStateToProps = ({ currentCity, offers }: State) => ({
-  currentCity,
-  offers,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onChangeCity(city: string) {
-    dispatch(changeCity(city));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & FilterScreenProps;
-
-function Filter(props: ConnectedComponentProps): JSX.Element {
-  const {cities, currentCity, onChangeCity} = props;
+function Filter(): JSX.Element {
+  const currentCity = useSelector(selectCurrentCity);
+  const dispatch = useDispatch();
+  const cities = useSelector(selectCities);
 
   return (
     <>
@@ -34,7 +15,7 @@ function Filter(props: ConnectedComponentProps): JSX.Element {
       <div className="tabs">
         <section className="locations container">
           <ul className="locations__list tabs__list">
-            { cities.map((city) => {
+            {cities.map((city) => {
               const classNameActive = cn({
                 'tabs__item--active': city === currentCity,
               });
@@ -44,7 +25,7 @@ function Filter(props: ConnectedComponentProps): JSX.Element {
                   <a href="/#"
                     className={ `locations__item-link tabs__item
                       ${classNameActive}` }
-                    onClick={() => onChangeCity(city)}
+                    onClick={() => dispatch(changeCity(city))}
                   >
                     <span>{city}</span>
                   </a>
@@ -58,5 +39,4 @@ function Filter(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export { Filter };
-export default connector(Filter);
+export default Filter;

@@ -1,9 +1,15 @@
-import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import {Link, useLocation} from 'react-router-dom';
+import cn from 'classnames';
+import {AppRoute} from '../../const';
 
 function Logo(): JSX.Element {
+  const {pathname} = useLocation();
+  const linkCls = cn('header__logo-link', {
+    'header__logo-link--active': pathname === AppRoute.Main,
+  });
+
   return (
-    <Link className="header__logo-link" to={AppRoute.Main}>
+    <Link className={linkCls} to={AppRoute.Main}>
       <img
         className="header__logo"
         src="img/logo.svg"
@@ -16,4 +22,3 @@ function Logo(): JSX.Element {
 }
 
 export default Logo;
-

@@ -1,14 +1,3 @@
-import { OfferType } from './offer';
-import {AuthorizationStatus} from '../const';
+import {RootState} from '../store/reducer/root-reducer';
 
-export type State = {
-  currentCity: string,
-  offers: OfferType[],
-  currentOffer: OfferType | null,
-  authorizationStatus: AuthorizationStatus,
-  offersLoading: true | false,
-  checkAuthLoading: true | false,
-  loginLoading: true | false,
-  logoutLoading: true | false,
-  error: string | null,
-};
+export type State = RootState;

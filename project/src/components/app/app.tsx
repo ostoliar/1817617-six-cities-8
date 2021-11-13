@@ -1,43 +1,23 @@
-import {Switch, Route, BrowserRouter} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
-import MainScreen from '../main-screen/main-screen';
-import FavoritesPageScreen from '../favorites-screen/favorites-screen';
-import NotFoundScreen from '../not-found-screen/not-found-screen';
-import SignInScreen from '../sign-in-screen/sign-in-screen';
-import PrivateRoute from '../private-route/private-route';
-import { OfferType } from '../../types/offer';
-import { CommentType } from '../../types/comment';
-import { State } from '../../types/state';
-import { connect, ConnectedProps } from 'react-redux';
+import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import Offer from '../offer/offer';
-import Spinner from '../spinner/spinner';
+import Favorites from '../favorites-screen/favorites-screen';
+import Login from '../login/login';
+import Main from '../main-screen/main-screen';
+import {AppRoute, AuthorizationStatus} from '../../const';
+import NotFound from '../not-found-screen/not-found-screen';
+import PrivateRoute from '../private-route/private-route';
+import Loader from '../loader/loader';
+import {selectOffersLoading} from '../../store/reducer/data/selectors';
+import {selectAuthorizationStatus} from '../../store/reducer/user/selectors';
 
-
-type AppScreenProps = {
-  cities: string[];
-  commentsList: CommentType[];
-}
-
-export const getOfferListByCity = (offers: OfferType[], city: string): OfferType[] => offers.filter((offer) => offer.city.name === city);
-
-const mapStateToProps = ({currentCity, offers, offersLoading}: State) => ({
-  currentCity,
-  offers,
-  offersLoading,
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & AppScreenProps;
-
-function App(props: ConnectedComponentProps): JSX.Element {
-  const {cities, commentsList, currentCity, offers, offersLoading} = props;
-  const offersList = getOfferListByCity(offers, currentCity);
+function App(): JSX.Element {
+  const offersLoading = useSelector(selectOffersLoading);
+  const authorizationStatus = useSelector(selectAuthorizationStatus);
 
   if (offersLoading) {
     return (
-      <Spinner />
+      <Loader />
     );
   }
 
@@ -45,26 +25,31 @@ function App(props: ConnectedComponentProps): JSX.Element {
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <MainScreen cities={cities} offersList={offersList}/>
+          <Main />
         </Route>
-        <Route exact path={AppRoute.SignIn}>
-          <SignInScreen />
+        <Route
+          exact
+          path={AppRoute.SignIn}
+          render={() => (
+            authorizationStatus === AuthorizationStatus.Auth
+              ? <Redirect to={AppRoute.Main} />
+              : <Login />
+          )}
+        >
         </Route>
         <PrivateRoute
           exact
           path={AppRoute.Favorites}
-          render = {() => <FavoritesPageScreen offersList={offersList}/>}
-          authorizationStatus={AuthorizationStatus.Auth}
+          render = {() => <Favorites />}
         >
         </PrivateRoute>
-        <Route exact path={`${AppRoute.Room}/:id`}>
-          <Offer offersList={offersList} commentsList={commentsList} />
+        <Route exact path={`${AppRoute.Offer}/:id`}>
+          <Offer />
         </Route>
-        <Route exact component={NotFoundScreen}/>
+        <Route exact component={NotFound}/>
       </Switch>
     </BrowserRouter>
   );
 }
 
-export { App };
-export default connector(App);
+export default App;

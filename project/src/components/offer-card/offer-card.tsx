@@ -1,36 +1,30 @@
-import { Link } from 'react-router-dom';
-import { Dispatch } from 'redux';
-import { connect, ConnectedProps } from 'react-redux';
-import { AppRoute, offerTypes } from '../../const';
-import { OfferType } from '../../types/offer';
-import { computeRatingWidth } from '../../utils';
-import { selectCurrentOffer } from '../../store/action';
-import { Actions } from '../../types/action';
-import { State } from '../../types/state';
-
-type OfferCardProps = {
-  offer: OfferType;
-  cardType: string;
-  onHover?: (id: number) => void;
-}
+import {Link, useHistory} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import cn from 'classnames';
+import {AppRoute, AuthorizationStatus, offerTypes} from '../../const';
+import {OfferType} from '../../types/offer';
+import {computeRatingWidth} from '../../utils';
+import {selectCurrentOffer} from '../../store/reducer/app/actions';
+import {selectAuthorizationStatus} from '../../store/reducer/user/selectors';
+import {favoriteAction} from '../../store/reducer/data/api-actions';
 
 const getClassNameComponent = (cardType: string) => {
   switch(cardType) {
     case 'cardsList':
       return {
-        classModificatorArticle: 'cities__place-card',
-        classModificatorDivImageWrapper: 'cities__place-card',
+        modifierArticle: 'cities__place-card',
+        modifierDivImageWrapper: 'cities__place-card',
       };
     case 'offer':
       return {
-        classModificatorArticle: 'near-places__card',
-        classModificatorDivImageWrapper: 'near-places',
+        modifierArticle: 'near-places__card',
+        modifierDivImageWrapper: 'near-places',
       };
     case 'favorites':
       return {
-        classModificatorArticle: 'favorites__card',
-        classModificatorDivImageWrapper: 'favorites',
-        classModificatorDivPlaceCardInfo: 'favorites__card-info',
+        modifierArticle: 'favorites__card',
+        modifierDivImageWrapper: 'favorites',
+        modifierDivPlaceCardInfo: 'favorites__card-info',
         imageWidth: '150',
         imageHeight: '110',
       };
@@ -39,25 +33,12 @@ const getClassNameComponent = (cardType: string) => {
   }
 };
 
-const mapStateToProps = ({currentCity, offers, currentOffer}: State) => ({
-  currentCity,
-  offers,
-  currentOffer,
-});
+type OfferCardProps = {
+  offer: OfferType;
+  cardType: string;
+}
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onSelectOffer(offer: OfferType | null) {
-    dispatch(selectCurrentOffer(offer));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & OfferCardProps;
-
-function OfferCard({offer, cardType, onHover, currentOffer, onSelectOffer}: ConnectedComponentProps): JSX.Element {
-
+function OfferCard({offer, cardType}: OfferCardProps): JSX.Element {
   const {
     id,
     isFavorite,
@@ -69,12 +50,39 @@ function OfferCard({offer, cardType, onHover, currentOffer, onSelectOffer}: Conn
     type,
   } = offer;
 
+  const authorizationStatus = useSelector(selectAuthorizationStatus);
+  const history = useHistory();
+  const dispatch = useDispatch();
   const getClassName = getClassNameComponent(cardType);
-  const { classModificatorArticle, classModificatorDivImageWrapper, classModificatorDivPlaceCardInfo, imageWidth = '260', imageHeight = '200' } = getClassName;
+  const {
+    modifierArticle,
+    modifierDivImageWrapper,
+    modifierDivPlaceCardInfo,
+    imageWidth = '260',
+    imageHeight = '200'} = getClassName;
+
+  const onSelectOffer = (selectedOffer: OfferType | null) => {
+    if (!AppRoute.Offer.includes(cardType)) {
+      dispatch(selectCurrentOffer(selectedOffer));
+    }
+  };
+
+  const handleClick = (idOffer: number) => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(favoriteAction(idOffer, !isFavorite));
+    } else {
+      history.push(AppRoute.SignIn);
+    }
+  };
+
+  const buttonIsFavorite = cn('place-card__bookmark-button',
+    {
+      'place-card__bookmark-button--active': isFavorite,
+    }, 'button');
 
   return (
     <article
-      className={`${classModificatorArticle} place-card`}
+      className={`${modifierArticle} place-card`}
       onMouseEnter={() => onSelectOffer ? onSelectOffer(offer) : undefined}
       onMouseLeave={() => onSelectOffer ? onSelectOffer(null) : undefined}
     >
@@ -82,24 +90,30 @@ function OfferCard({offer, cardType, onHover, currentOffer, onSelectOffer}: Conn
       <div className="place-card__mark">
         <span>Premium</span>
       </div>}
-      <div className={`${classModificatorDivImageWrapper}__image-wrapper place-card__image-wrapper`}>
-        <Link to={`${AppRoute.Room}/${id}`}>
-          <img
-            className="place-card__image"
-            src={previewImage}
-            width={imageWidth}
-            height={imageHeight}
-            alt="Apartment"
-          />
-        </Link>
+      <div
+        className={
+          `${modifierDivImageWrapper}__image-wrapper place-card__image-wrapper`
+        }
+      >
+        <img
+          className="place-card__image"
+          src={previewImage}
+          width={imageWidth}
+          height={imageHeight}
+          alt="Apartment"
+        />
       </div>
-      <div className={`${classModificatorDivPlaceCardInfo} place-card__info`}>
+      <div className={`${modifierDivPlaceCardInfo} place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button ${isFavorite && 'place-card__bookmark-button--active'} button`} type="button">
+          <button
+            className={buttonIsFavorite}
+            type="button"
+            onClick={() => handleClick(id)}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark" />
             </svg>
@@ -115,12 +129,14 @@ function OfferCard({offer, cardType, onHover, currentOffer, onSelectOffer}: Conn
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="/#">{title}</a>
+          <Link to={`${AppRoute.Offer}/${id}`}>
+            {title}
+          </Link>
         </h2>
         <p className="place-card__type">{offerTypes[type]}</p>
       </div>
     </article>
   );
 }
-export { OfferCard };
-export default connector(OfferCard);
+
+export default OfferCard;

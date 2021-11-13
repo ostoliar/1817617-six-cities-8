@@ -1,25 +1,22 @@
-import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import {useSelector} from 'react-redux';
+import {AuthorizationStatus} from '../../const';
+import {selectAuthorizationStatus} from '../../store/reducer/user/selectors';
+import UserMenuSignOut from '../user-menu-sign-out/user-menu-sign-out';
+import UserMenuSignIn from '../user-menu-sign-in/user-menu-sign-in';
 
-function UserStatus(): JSX.Element {
+function UserMenu(): JSX.Element {
+  const authorizationStatus = useSelector(selectAuthorizationStatus);
+
   return (
     <nav className="header__nav">
       <ul className="header__nav-list">
-        <li className="header__nav-item user">
-          <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
-            <div className="header__avatar-wrapper user__avatar-wrapper">
-            </div>
-            <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-          </Link>
-        </li>
-        <li className="header__nav-item">
-          <Link className="header__nav-link" to={AppRoute.SignIn}>
-            <span className="header__signout">Sign out</span>
-          </Link>
-        </li>
+        {authorizationStatus === AuthorizationStatus.Auth
+          ? <UserMenuSignOut />
+          : <UserMenuSignIn />}
       </ul>
     </nav>
   );
 }
 
-export default UserStatus;
+export default UserMenu;
+

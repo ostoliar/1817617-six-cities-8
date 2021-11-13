@@ -1,4 +1,7 @@
-export const computeRatingWidth = (rating: number): string => `${(rating / 5) * 100 }%`;
+import {offerSortTypes} from './const';
+import {OfferType} from './types/offer';
+
+export const computeRatingWidth = (rating: number): string => `${Math.round(rating) * 20}%`;
 
 export const formatDateYYYYMMDD = (date: Date): string => {
   let dd = '00';
@@ -15,3 +18,14 @@ export const formatDateMMMMYYYY = (date: Date): string => new Date(date).toLocal
   year: 'numeric',
   month: 'long',
 });
+
+export const makeOfferSortTypes = {
+  [offerSortTypes.PRICE_UP]: (offerA: OfferType, offerB: OfferType): number =>
+    offerB.price - offerA.price,
+
+  [offerSortTypes.PRICE_DOWN]: (offerA: OfferType, offerB: OfferType): number =>
+    offerA.price - offerB.price,
+
+  [offerSortTypes.RATING_DOWN]: (offerA: OfferType, offerB: OfferType): number =>
+    offerB.rating - offerA.rating,
+};

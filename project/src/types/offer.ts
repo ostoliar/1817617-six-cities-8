@@ -9,9 +9,11 @@ export type City = {
 
 export type User = {
   avatarUrl?: string,
-  id: number,
+  email?: string,
+  id?: number,
   isPro?: boolean,
-  name: string,
+  name?: string,
+  token?: string,
 }
 
 type Location = {
@@ -41,9 +43,11 @@ export type OfferType = {
 
 export type UserAdapted = {
   ['avatar_url']?: string,
+  email: string,
   id: number,
   ['is_pro']?: boolean,
   name: string,
+  token?: string,
 }
 
 export type OfferAdaptedType = {

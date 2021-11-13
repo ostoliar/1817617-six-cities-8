@@ -1,81 +1,44 @@
-import { useState } from 'react';
-import Filter from '../filter/filter';
-import Sort from '../sort/sort';
-import Header from '../header/header';
-import CardsList from '../card-list/card-list';
-import { OfferType } from '../../types/offer';
-import Map from '../map/map';
+import {useSelector} from 'react-redux';
+import cn from 'classnames';
+import Filter from '../../components/filter/filter';
+import Header from '../../components/header/header';
+import {selectCurrentCity, selectFilteredSortedOffers} from '../../store/reducer/app/selectors';
 
-const DEFAULT_SORT_TYPE = 'Popular';
+import MainOffersBoard from '../../components/main-offers-board/main-offers-board';
+import MainOffersEmpty from '../../components/main-offers-empty/main-offers-empty';
+import {selectErrorLoadOffers} from '../../store/reducer/data/selectors';
+import ErrorScreen from '../error-screen/errror-screen';
 
-const offerSortTypes = {
-  POPULAR: 'Popular',
-  PRICE_DOWN: 'Price: low to high',
-  PRICE_UP: 'Price: high to low',
-  RATING_DOWN: 'Top rated first',
-};
+function MainScreen(): JSX.Element {
+  const currentCity = useSelector(selectCurrentCity);
+  const offersList = useSelector(selectFilteredSortedOffers);
+  const errorLoadOffers = useSelector(selectErrorLoadOffers);
 
-const makeOfferSortTypes = {
-  [offerSortTypes.PRICE_UP]: (offerA: OfferType, offerB: OfferType) =>
-    offerB.price - offerA.price,
+  const pageMainIndexCls = cn('page__main page__main--index',
+    {'page__main--index-empty': !(offersList.length > 0)});
 
-  [offerSortTypes.PRICE_DOWN]: (offerA: OfferType, offerB: OfferType) =>
-    offerA.price - offerB.price,
+  const citiesPlacesContainerCls = cn('cities__places-container',
+    {'cities__places-container--empty': !(offersList.length > 0)}, 'container');
 
-  [offerSortTypes.RATING_DOWN]: (offerA: OfferType, offerB: OfferType) =>
-    offerB.rating - offerA.rating,
-};
-
-const getSortedOffers = (sortType: string, offers: OfferType[]) => {
-  switch(sortType) {
-    case sortType:
-      return offers.slice(0).sort(makeOfferSortTypes[sortType]);
-    default:
-      return offers;
+  if (errorLoadOffers) {
+    return <ErrorScreen />;
   }
-};
-
-type MainScreenProps = {
-  cities: string[];
-  offersList: OfferType[];
-}
-
-function MainScreen({cities, offersList}: MainScreenProps): JSX.Element {
-  const [isSortType, setSortType] = useState(DEFAULT_SORT_TYPE);
-  const [{city: {name}}] = offersList;
-
-  const handleChangeSortType = (sortType: string) => {
-    setSortType(sortType);
-  };
-
-  const sortedOffers = getSortedOffers(isSortType, offersList);
 
   return (
     <div className="page page--gray page--main">
       <Header />
-      <main className="page__main page__main--index">
-        <Filter cities={cities} />
+      <main className={pageMainIndexCls}>
+        <Filter />
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersList.length} places to stay in {name}</b>
-              <Sort
-                offerSortTypes={offerSortTypes}
-                handleChangeSortType={handleChangeSortType}
-                selectSortType={isSortType}
-              />
-              <CardsList offersList={sortedOffers} />
-            </section>
-            <div className="cities__right-section">
-              <section className="cities__map map">
-                <Map offersList={offersList}/>
-              </section>
-            </div>
+          <div className={citiesPlacesContainerCls}>
+            {offersList.length > 0
+              ? <MainOffersBoard currentCity={currentCity} offersList={offersList} />
+              : <MainOffersEmpty currentCity={currentCity} />}
           </div>
         </div>
       </main>
     </div>
   );
 }
+
 export default MainScreen;
