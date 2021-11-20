@@ -1,18 +1,31 @@
+import {useMemo} from 'react';
 import {useSelector} from 'react-redux';
 import cn from 'classnames';
 import Filter from '../../components/filter/filter';
 import Header from '../../components/header/header';
-import {selectCurrentCity, selectFilteredSortedOffers} from '../../store/reducer/app/selectors';
-
 import MainOffersBoard from '../../components/main-offers-board/main-offers-board';
 import MainOffersEmpty from '../../components/main-offers-empty/main-offers-empty';
+import ErrorScreen from '../../components/error-screen/errror-screen';
+import {
+  selectCurrentCity,
+  selectFilteredSortedOffers
+} from '../../store/reducer/app/selectors';
 import {selectErrorLoadOffers} from '../../store/reducer/data/selectors';
-import ErrorScreen from '../error-screen/errror-screen';
+import {AuthorizationStatus} from '../../const';
 
-function MainScreen(): JSX.Element {
+type MainProps = {
+  authorizationStatus: AuthorizationStatus;
+}
+
+function Main({authorizationStatus}: MainProps): JSX.Element {
   const currentCity = useSelector(selectCurrentCity);
   const offersList = useSelector(selectFilteredSortedOffers);
   const errorLoadOffers = useSelector(selectErrorLoadOffers);
+
+  const memoHeader = useMemo(
+    () => <Header authorizationStatus={authorizationStatus} />,
+    [authorizationStatus],
+  );
 
   const pageMainIndexCls = cn('page__main page__main--index',
     {'page__main--index-empty': !(offersList.length > 0)});
@@ -21,12 +34,15 @@ function MainScreen(): JSX.Element {
     {'cities__places-container--empty': !(offersList.length > 0)}, 'container');
 
   if (errorLoadOffers) {
-    return <ErrorScreen />;
+    return <ErrorScreen authorizationStatus={authorizationStatus}/>;
   }
 
   return (
-    <div className="page page--gray page--main">
-      <Header />
+    <div
+      className="page page--gray page--main"
+      data-testid="pageMain"
+    >
+      {memoHeader}
       <main className={pageMainIndexCls}>
         <Filter />
         <div className="cities">
@@ -41,4 +57,4 @@ function MainScreen(): JSX.Element {
   );
 }
 
-export default MainScreen;
+export default Main;

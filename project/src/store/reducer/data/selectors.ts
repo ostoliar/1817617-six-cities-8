@@ -15,7 +15,7 @@ export const selectOffersLoading = (state: State): boolean => (
   state[NameSpace.data].offersLoading
 );
 export const selectErrorLoadOffers = (state: State): string | null => (
-  state[NameSpace.data].errorloadOffers
+  state[NameSpace.data].errorLoadOffers
 );
 export const selectOfferComments = (state: State): CommentType[] => (
   state[NameSpace.data].offerComments
@@ -35,7 +35,7 @@ export const selectOfferByIdLoading = (state: State): StatusLoading => (
 export const selectOfferById = (state: State): OfferType | null => (
   state[NameSpace.data].offerById
 );
-export const selectErrorLoadOfferById = (state: State): OfferType | null => (
+export const selectErrorLoadOfferById = (state: State): string | null => (
   state[NameSpace.data].errorLoadOfferById
 );
 export const selectOffersNearby = (state: State): OfferType[] => (

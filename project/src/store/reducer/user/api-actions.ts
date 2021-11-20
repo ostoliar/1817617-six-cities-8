@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {toast} from 'react-toastify';
 import {
   checkAuthFailure,
@@ -16,9 +17,9 @@ import {ThunkActionResult} from '../../../types/action';
 import {AuthData} from '../../../types/auth-data';
 import {dropToken, saveToken} from '../../../components/services/token';
 import {fetchOffersAction} from '../data/api-actions';
-import {UserAdapted} from '../../../types/offer';
+import {User, UserAdapted} from '../../../types/offer';
 
-const adaptUserToClient = (userData: UserAdapted) => {
+export const adaptUserToClient = (userData: UserAdapted): User => {
   const adaptedUser = {
     ...userData,
     isPro: userData['is_pro'],
@@ -41,7 +42,6 @@ export const checkAuthAction = (): ThunkActionResult => (
         adaptUserToClient(data)),
       );
       dispatch(checkAuthSuccess());
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(checkAuthFailure(error.toString()));
     }
@@ -63,7 +63,6 @@ export const loginAction = (
       );
       dispatch(loginSuccess());
       dispatch(fetchOffersAction());
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(loginFailure(error.toString()));
       toast.warn(ErrorTexts.LOGIN_FAIL_MESSAGE);
@@ -79,7 +78,6 @@ export const logoutAction = (): ThunkActionResult => (
       dropToken();
       dispatch(requireLogout());
       dispatch(logoutSuccess());
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(logoutFailure(error.toString()));
     }

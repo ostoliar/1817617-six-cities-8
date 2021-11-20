@@ -1,12 +1,12 @@
-import {useEffect} from 'react';
+import {useEffect, useMemo} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import cn from 'classnames';
 import OfferImage from '../../components/offer-image/offer-image';
-import {AppRoute, AuthorizationStatus, offerTypes, StatusLoading} from '../../const';
+import {AppRoutes, AuthorizationStatus, offerTypes, StatusLoading} from '../../const';
 import OfferProperty from '../../components/offer-property/offer-property';
 import OfferCard from '../../components/offer-card/offer-card';
-import {computeRatingWidth} from '../../utils';
+import {computeRatingWidth} from '../../utils/utils';
 import OfferHost from '../../components/offer-host/offer-host';
 import OfferComment from '../../components/offer-comment/offer-comment';
 import Map from '../../components/map/map';
@@ -24,18 +24,22 @@ import {
   selectOfferByIdCombo,
   selectOffersNearby
 } from '../../store/reducer/data/selectors';
-import {selectAuthorizationStatus} from '../../store/reducer/user/selectors';
 import {loadOfferByIdFailure} from '../../store/reducer/data/actions';
 
 const MAX_COUNT_NEARBY_OFFERS = 3;
 
-function Offer(): JSX.Element {
+type OfferProps = {
+  authorizationStatus: AuthorizationStatus;
+}
+
+function Offer({authorizationStatus}: OfferProps): JSX.Element {
   const {id: idUrl} = useParams<{id: string}>();
   const dispatch = useDispatch();
   const {offerLoading, offer: currentOffer, offerError} = useSelector(selectOfferByIdCombo);
   const offersNearby = useSelector(selectOffersNearby);
-  const authorizationStatus = useSelector(selectAuthorizationStatus);
   const history = useHistory();
+
+  const memoHeader = useMemo(() => <Header authorizationStatus={authorizationStatus} />, [authorizationStatus]);
 
   useEffect(() => {
     dispatch(selectCurrentOffer(currentOffer));
@@ -43,19 +47,21 @@ function Offer(): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchOfferByIdAction(idUrl));
-    if (offerError) {
+  }, [dispatch, idUrl]);
+
+  useEffect(() => {
+    if (!offerError && currentOffer !== null) {
       dispatch(fetchNearbyOffersAction(idUrl));
       dispatch(fetchOfferCommentsAction(idUrl));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, idUrl]);
+  }, [currentOffer, dispatch, idUrl, offerError]);
 
   useEffect(() => () => {
     dispatch(loadOfferByIdFailure(null));
   }, [dispatch]);
 
   if (offerError) {
-    return <NotFound />;
+    return <NotFound authorizationStatus={authorizationStatus} />;
   }
 
   if (
@@ -71,7 +77,7 @@ function Offer(): JSX.Element {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       dispatch(favoriteAction(idOffer, !currentOffer.isFavorite));
     } else {
-      history.push(AppRoute.SignIn);
+      history.push(AppRoutes.Login);
     }
   };
 
@@ -82,8 +88,7 @@ function Offer(): JSX.Element {
 
   return (
     <div className="page">
-      <Header />
-
+      {memoHeader}
       <main className="page__main page__main--property">
         <section className="property">
           <OfferImage images={currentOffer.images}/>

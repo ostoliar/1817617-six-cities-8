@@ -1,9 +1,9 @@
-import ReactLoaderSpiner from 'react-loader-spinner';
+import ReactLoaderSpinner from 'react-loader-spinner';
 
 function ButtonsLoader(): JSX.Element {
   return (
-    <div>
-      <ReactLoaderSpiner
+    <div data-testid="buttonsLoader">
+      <ReactLoaderSpinner
         type="Watch"
         color="#4481c3"
         height={30}

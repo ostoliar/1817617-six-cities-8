@@ -13,7 +13,7 @@ export type appType = {
   selectedSort: string,
 };
 
-const initialState = {
+const initialState: appType = {
   currentCity: FIRST_CITY_TAB,
   selectedOffer: null,
   selectedSort: SORT_TYPE_DEFAULT,
@@ -21,15 +21,15 @@ const initialState = {
 
 const appProcess = createReducer(initialState, (builder) => {
   builder
-    .addCase(changeCity, (state: appType, action) => {
+    .addCase(changeCity, (state, action) => {
       const {city} = action.payload;
       state.currentCity = city;
     })
-    .addCase(selectCurrentOffer, (state: appType, action) => {
+    .addCase(selectCurrentOffer, (state, action) => {
       const {offer} = action.payload;
       state.selectedOffer = offer;
     })
-    .addCase(changeSort, (state: appType, action) => {
+    .addCase(changeSort, (state, action) => {
       const {sortType} = action.payload;
       state.selectedSort = sortType;
     });

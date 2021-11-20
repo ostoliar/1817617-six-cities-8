@@ -1,4 +1,4 @@
-import { User,UserAdapted } from './offer';
+import {User, UserAdapted} from './offer';
 
 export type CommentType = {
   comment: string,

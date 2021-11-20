@@ -11,6 +11,7 @@ import {createAPI} from './components/services/api';
 import {requireAuthorization} from './store/reducer/user/actions';
 import {checkAuthAction} from './store/reducer/user/api-actions';
 import {fetchOffersAction} from './store/reducer/data/api-actions';
+import {BrowserRouter} from 'react-router-dom';
 
 const api = createAPI(
   () => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)),
@@ -32,8 +33,10 @@ const store = configureStore({
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer />
-      <App />
+      <BrowserRouter>
+        <ToastContainer />
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));

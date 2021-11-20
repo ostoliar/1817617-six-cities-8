@@ -3,7 +3,7 @@ import {useParams} from 'react-router';
 import {useDispatch, useSelector} from 'react-redux';
 import cn from 'classnames';
 import StarRating from '../star-rating/star-rating';
-import {valueRating} from '../../const';
+import {valueRatings} from '../../const';
 import {commentAction} from '../../store/reducer/data/api-actions';
 import LoaderButton from '../buttons-loader/buttons-loader';
 import styles from './user-comment-form.module.css';
@@ -108,11 +108,11 @@ function UserCommentForm(): JSX.Element {
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {Object.keys(valueRating).reverse().map((key) => (
+        {Object.keys(valueRatings).reverse().map((key) => (
           <StarRating
             starNumber={key}
             starActionNumber={formState.rating.value}
-            title={valueRating[key]}
+            title={valueRatings[key]}
             key={key}
             onChangeRating={handleChange}
           />
@@ -125,6 +125,7 @@ function UserCommentForm(): JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={formState.review.value}
         onChange={handleChange}
+        data-testid="reviewsTextarea"
       >
       </textarea>
       <div className="reviews__button-wrapper">

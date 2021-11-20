@@ -1,5 +1,6 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {StatusLoading, cities} from '../../../const';
+import {StatusLoading} from '../../../const';
+import {cities} from '../../../const';
 import {
   clearCommentForm,
   fetchFavoriteFailure,
@@ -11,7 +12,6 @@ import {
   loadOfferCommentsFailure,
   loadOfferCommentsRequest,
   loadOfferCommentsSuccess,
-  loadOfferList,
   loadOffersFailure,
   loadOffersNearbyFailure,
   loadOffersNearbyRequest,
@@ -28,161 +28,159 @@ import {
 import {OfferType} from '../../../types/offer';
 import {CommentType} from '../../../types/comment';
 
-export type dataType = {
+export type DataType = {
   cities: string[],
   offers: OfferType[],
+  offersLoading: boolean,
+  errorLoadOffers: string | null,
   offerById: OfferType | null,
+  offerByIdLoading: StatusLoading,
+  errorLoadOfferById: string | null,
   offersNearby: OfferType[],
+  offersNearbyLoading: boolean,
+  errorLoadOffersNearby: string | null,
   offerComments: CommentType[],
+  offerCommentsLoading: boolean,
+  errorLoadOfferComments: string | null,
   commentLoading: boolean,
+  errorPostOfferComment: string | null,
   favoriteOffers: OfferType[],
   fetchFavoriteLoading: boolean,
-  favoriteLoading: boolean,
-  isClearCommentForm: boolean,
-  offersLoading: boolean,
-  offerByIdLoading: StatusLoading,
-  offersNearbyLoading: boolean,
-  offerCommentsLoading: boolean,
-  errorLoadOfferById: string | null,
-  errorLoadOffersNearby: string | null,
-  errorLoadOfferComments: string | null,
-  errorPostOfferComment: string | null,
   errorFetchFavorite: string | null,
+  favoriteLoading: boolean,
   errorPostFavorite: string | null,
-  errorloadOffers: string | null,
-  error: string | null,
+  isClearCommentForm: boolean,
 };
 
-const initialState = {
+const initialState: DataType = {
   cities: cities,
   offers: [],
+  offersLoading: false,
+  errorLoadOffers: null,
   offerById: null,
+  offerByIdLoading: StatusLoading.Idle,
+  errorLoadOfferById: null,
   offersNearby: [],
+  offersNearbyLoading: false,
+  errorLoadOffersNearby: null,
   offerComments: [],
+  offerCommentsLoading: false,
+  errorLoadOfferComments: null,
   commentLoading: false,
+  errorPostOfferComment: null,
   favoriteOffers: [],
   fetchFavoriteLoading: false,
-  favoriteLoading: false,
-  isClearCommentForm: false,
-  offersLoading: false,
-  offerByIdLoading: StatusLoading.Idle,
-  offersNearbyLoading: false,
-  offerCommentsLoading: false,
-  errorLoadOfferById: null,
-  errorLoadOffersNearby: null,
-  errorLoadOfferComments: null,
-  errorPostOfferComment: null,
   errorFetchFavorite: null,
+  favoriteLoading: false,
   errorPostFavorite: null,
-  errorloadOffers: null,
-  error: null,
+  isClearCommentForm: false,
 };
 
 const appData = createReducer(initialState, (builder) => {
   builder
-    .addCase(loadOfferList, (state: dataType, action) => {
-      const {offers} = action.payload;
-      state.offers = offers;
-    })
-    .addCase(loadOffersRequest, (state: dataType, action) => {
+    .addCase(loadOffersRequest, (state, action) => {
       state.offersLoading = true;
     })
-    .addCase(loadOffersSuccess, (state: dataType, action) => {
+    .addCase(loadOffersSuccess, (state, action) => {
+      const {offers} = action.payload;
+      state.offers = offers;
       state.offersLoading = false;
     })
-    .addCase(loadOffersFailure, (state: dataType, action) => {
+    .addCase(loadOffersFailure, (state, action) => {
       const {error} = action.payload;
       state.offersLoading = false;
-      state.errorloadOffers = error;
+      state.errorLoadOffers = error;
     })
-    .addCase(loadOfferByIdRequest, (state: dataType, action) => {
+    .addCase(loadOfferByIdRequest, (state, action) => {
       state.offerByIdLoading = StatusLoading.Loading;
     })
-    .addCase(loadOfferByIdSuccess, (state: dataType, action) => {
+    .addCase(loadOfferByIdSuccess, (state, action) => {
       const {offer} = action.payload;
       state.offerById = offer;
       state.offerByIdLoading = StatusLoading.Succeeded;
     })
-    .addCase(loadOfferByIdFailure, (state: dataType, action) => {
+    .addCase(loadOfferByIdFailure, (state, action) => {
       const {error} = action.payload;
       state.offerByIdLoading = StatusLoading.Failed;
       state.errorLoadOfferById = error;
     })
-    .addCase(loadOffersNearbyRequest, (state: dataType, action) => {
+    .addCase(loadOffersNearbyRequest, (state, action) => {
       state.offersNearbyLoading = true;
     })
-    .addCase(loadOffersNearbySuccess, (state: dataType, action) => {
+    .addCase(loadOffersNearbySuccess, (state, action) => {
       const {offers} = action.payload;
       state.offersNearby = offers;
       state.offersNearbyLoading = false;
     })
-    .addCase(loadOffersNearbyFailure, (state: dataType, action) => {
+    .addCase(loadOffersNearbyFailure, (state, action) => {
       const {error} = action.payload;
       state.offersNearbyLoading = false;
       state.errorLoadOffersNearby = error;
     })
-    .addCase(loadOfferCommentsRequest, (state: dataType, action) => {
+    .addCase(loadOfferCommentsRequest, (state, action) => {
       state.offerCommentsLoading = true;
     })
-    .addCase(loadOfferCommentsSuccess, (state: dataType, action) => {
+    .addCase(loadOfferCommentsSuccess, (state, action) => {
       const {comments} = action.payload;
       state.offerComments = comments;
       state.offerCommentsLoading = false;
     })
-    .addCase(loadOfferCommentsFailure, (state: dataType, action) => {
+    .addCase(loadOfferCommentsFailure, (state, action) => {
       const {error} = action.payload;
       state.offerCommentsLoading = false;
       state.errorLoadOfferComments = error;
     })
-    .addCase(postOfferCommentRequest, (state: dataType, action) => {
+    .addCase(postOfferCommentRequest, (state, action) => {
       state.commentLoading = true;
     })
-    .addCase(postOfferCommentSuccess, (state: dataType, action) => {
+    .addCase(postOfferCommentSuccess, (state, action) => {
       const {comments} = action.payload;
       state.offerComments = comments;
       state.commentLoading = false;
       state.isClearCommentForm = true;
     })
-    .addCase(postOfferCommentFailure, (state: dataType, action) => {
+    .addCase(postOfferCommentFailure, (state, action) => {
       const {error} = action.payload;
       state.commentLoading = false;
       state.errorPostOfferComment = error;
     })
-    .addCase(clearCommentForm, (state: dataType) => {
+    .addCase(clearCommentForm, (state) => {
       state.isClearCommentForm = false;
     })
-    .addCase(fetchFavoriteRequest, (state: dataType, action) => {
+    .addCase(fetchFavoriteRequest, (state, action) => {
       state.fetchFavoriteLoading = true;
     })
-    .addCase(fetchFavoriteSuccess, (state: dataType, action) => {
+    .addCase(fetchFavoriteSuccess, (state, action) => {
       const {offers} = action.payload;
       state.favoriteOffers = offers;
       state.fetchFavoriteLoading = false;
     })
-    .addCase(fetchFavoriteFailure, (state: dataType, action) => {
+    .addCase(fetchFavoriteFailure, (state, action) => {
       const {error} = action.payload;
       state.fetchFavoriteLoading = false;
       state.errorFetchFavorite = error;
     })
-    .addCase(postFavoriteRequest, (state: dataType) => {
+    .addCase(postFavoriteRequest, (state) => {
       state.favoriteLoading = true;
     })
-    .addCase(postFavoriteSuccess, (state: dataType, action) => {
+    .addCase(postFavoriteSuccess, (state, action) => {
       const {id, status} = action.payload;
       state.favoriteLoading = false;
-      const favoriteOfferMainPage = state.offers.find((offer) => offer.id === id);
+      const favoriteOfferMainPage = state.offers
+        .find((offer) => offer.id === id);
       if (favoriteOfferMainPage) {
         favoriteOfferMainPage.isFavorite = status;
       }
       if (state.offerById && state.offerById.id === id) {
         state.offerById.isFavorite = status;
       }
-      const favoriteOfferIndex = state.favoriteOffers.findIndex((offer) => offer.id === id);
+      const favoriteOfferIndex = state.favoriteOffers
+        .findIndex((offer) => offer.id === id);
       if (favoriteOfferIndex !== -1) {
         state.favoriteOffers.splice(favoriteOfferIndex, 1);
       }
     })
-    .addCase(postFavoriteFailure, (state: dataType, action) => {
+    .addCase(postFavoriteFailure, (state, action) => {
       const {error} = action.payload;
       state.favoriteLoading = false;
       state.errorPostFavorite = error;

@@ -1,6 +1,6 @@
 import {useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoutes, AuthorizationStatus} from '../../const';
 import {
   selectErrorLoadOfferComments,
   selectOfferComments
@@ -43,7 +43,7 @@ function OfferComment(): JSX.Element {
           : (
             <span>Only registered users can add reviews {' '}
               {
-                <Link style={{textDecoration: 'underline'}}to={AppRoute.SignIn}>
+                <Link style={{textDecoration: 'underline'}}to={AppRoutes.Login}>
                   <span>Sign in</span>
                 </Link>
               }

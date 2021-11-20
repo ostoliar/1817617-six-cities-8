@@ -1,4 +1,4 @@
-import { OfferType } from '../../types/offer';
+import {OfferType} from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
 
 type FavoritesListProps = {
@@ -28,6 +28,5 @@ function FavoritesList({offersFavoriteListByCities}: FavoritesListProps): JSX.El
     </ul>
   );
 }
-
 
 export default FavoritesList;

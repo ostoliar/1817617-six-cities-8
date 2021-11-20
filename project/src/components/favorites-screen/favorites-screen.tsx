@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import cn from 'classnames';
 import FavoritesList from '../../components/favorites-list/favorites-list';
@@ -6,9 +6,14 @@ import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import {fetchFavoritesAction} from '../../store/reducer/data/api-actions';
 import {selectFavoriteOffers} from '../../store/reducer/data/selectors';
-import {OfferType} from '../../types/offer';
+import {getOffersFavoriteListByСities} from '../../utils/utils';
+import {AuthorizationStatus} from '../../const';
 
-function Favorites(): JSX.Element {
+type FavoritesScreenProps = {
+  authorizationStatus: AuthorizationStatus;
+}
+
+function Favorites({authorizationStatus}: FavoritesScreenProps): JSX.Element {
   const offersList = useSelector(selectFavoriteOffers);
   const dispatch = useDispatch();
 
@@ -16,26 +21,18 @@ function Favorites(): JSX.Element {
     dispatch(fetchFavoritesAction());
   }, [dispatch]);
 
-  const offersFavoriteListBySities = offersList
-    .reduce((acc:{[key: string]: OfferType[]}, offer) => {
-      if(!acc[offer.city.name] && offer.isFavorite) {
-        acc[offer.city.name] = [];
-      }
+  const memoHeader = useMemo(() => <Header authorizationStatus={authorizationStatus} />, [authorizationStatus]);
 
-      if(offer.isFavorite){
-        (acc[offer.city.name]).push(offer);
-      }
+  const memoFooter = useMemo(() => <Footer authorizationStatus={authorizationStatus} />, [authorizationStatus]);
 
-      return acc;
-    }, {});
+  const offersFavoriteListByCities = getOffersFavoriteListByСities(offersList);
 
   const pageCls = cn('page', {'page--favorites-empty': offersList.length > 0});
   const pageMainCls = cn('page__main page__main--favorites', {'page__main--favorites-empty': offersList.length > 0});
 
   return (
     <div className={pageCls}>
-      <Header />
-
+      {memoHeader}
       <main className={pageMainCls}>
         <div className="page__favorites-container container">
           {offersList.length > 0
@@ -43,7 +40,7 @@ function Favorites(): JSX.Element {
               <section className="favorites">
                 <h1 className="favorites__title">Saved listing</h1>
                 <FavoritesList
-                  offersFavoriteListByCities={offersFavoriteListBySities}
+                  offersFavoriteListByCities={offersFavoriteListByCities}
                 />
               </section>
             )
@@ -58,7 +55,7 @@ function Favorites(): JSX.Element {
             )}
         </div>
       </main>
-      <Footer />
+      {memoFooter}
     </div>
   );
 }

@@ -1,6 +1,6 @@
-import { MutableRefObject, useEffect, useState } from 'react';
-import { Map, TileLayer } from 'leaflet';
-import { City } from '../types/offer';
+import {MutableRefObject, useEffect, useState} from 'react';
+import {Map, TileLayer} from 'leaflet';
+import {City} from '../types/offer';
 
 export const MAP_TAILE_LAYER = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 

@@ -1,10 +1,10 @@
-import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import Offer from '../offer/offer';
 import Favorites from '../favorites-screen/favorites-screen';
 import Login from '../login/login';
 import Main from '../main-screen/main-screen';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoutes, AuthorizationStatus} from '../../const';
 import NotFound from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 import Loader from '../loader/loader';
@@ -22,33 +22,31 @@ function App(): JSX.Element {
   }
 
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path={AppRoute.Main}>
-          <Main />
-        </Route>
-        <Route
-          exact
-          path={AppRoute.SignIn}
-          render={() => (
-            authorizationStatus === AuthorizationStatus.Auth
-              ? <Redirect to={AppRoute.Main} />
-              : <Login />
-          )}
-        >
-        </Route>
-        <PrivateRoute
-          exact
-          path={AppRoute.Favorites}
-          render = {() => <Favorites />}
-        >
-        </PrivateRoute>
-        <Route exact path={`${AppRoute.Offer}/:id`}>
-          <Offer />
-        </Route>
-        <Route exact component={NotFound}/>
-      </Switch>
-    </BrowserRouter>
+    <Switch>
+      <Route exact path={AppRoutes.Main}>
+        <Main authorizationStatus={authorizationStatus} />
+      </Route>
+      <Route
+        exact
+        path={AppRoutes.Login}
+        render={() => (
+          authorizationStatus === AuthorizationStatus.Auth
+            ? <Redirect to={AppRoutes.Main} />
+            : <Login authorizationStatus={authorizationStatus} />
+        )}
+      >
+      </Route>
+      <PrivateRoute
+        exact
+        path={AppRoutes.Favorites}
+        render = {() => <Favorites authorizationStatus={authorizationStatus} />}
+      >
+      </PrivateRoute>
+      <Route exact path={`${AppRoutes.Offer}/:id`}>
+        <Offer authorizationStatus={authorizationStatus} />
+      </Route>
+      <Route exact component={NotFound}/>
+    </Switch>
   );
 }
 

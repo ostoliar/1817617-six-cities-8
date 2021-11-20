@@ -1,6 +1,6 @@
 type OfferPropertyProps = {
-    good: string;
-  }
+  good: string;
+}
 
 function OfferProperty({good}: OfferPropertyProps): JSX.Element {
   return (
@@ -11,4 +11,3 @@ function OfferProperty({good}: OfferPropertyProps): JSX.Element {
 }
 
 export default OfferProperty;
-

@@ -1,46 +1,23 @@
-export enum AppRoute {
-    SignIn = '/login',
-    Favorites = '/favorites',
-    Offer = '/offer',
-    Main = '/'
-  }
-
-export enum AuthorizationStatus {
-    Auth = 'AUTH',
-    NoAuth = 'NO_AUTH',
-    Unknown = 'UNKNOWN',
-  }
-
-  type offerType = {
-    [key: string]: string,
-  }
-
-export const offerTypes: offerType = {
-  apartment: 'Apartment',
-  room: 'Room',
-  house: 'House',
-  hotel: 'Hotel',
-};
-
-export const STARS_COUNT_RATING = 5;
-
-export const cities = [ 'Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf' ];
-
+import {offerSortType, offerType, valueRatingType} from './types/const';
 
 export const FIRST_CITY_TAB = 'Paris';
 export const SORT_TYPE_DEFAULT = 'Popular';
 
-export type valueRatingType = {
-  [key: string]: string,
-};
+export const cities: string[] = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
-export const valueRating: valueRatingType = {
-  '5': 'perfect',
-  '4': 'good',
-  '3': 'not bad',
-  '2': 'badly',
-  '1': 'terribly',
-};
+export enum StatusLoading {
+  Idle = 'idle',
+  Loading = 'loading',
+  Succeeded = 'succeeded',
+  Failed = 'failed',
+}
+
+export enum AppRoutes {
+  Main = '/',
+  Login = '/login',
+  Favorites = '/favorites',
+  Offer = '/offer',
+}
 
 export enum APIRoutes {
   Hotels = '/hotels',
@@ -51,9 +28,26 @@ export enum APIRoutes {
   Favorite = '/favorite',
 }
 
-export type offerSortType = {
-  [key: string]: string,
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
 }
+
+export const offerTypes: offerType = {
+  apartment: 'Apartment',
+  room: 'Room',
+  house: 'House',
+  hotel: 'Hotel',
+};
+
+export const valueRatings: valueRatingType = {
+  '5': 'perfect',
+  '4': 'good',
+  '3': 'not bad',
+  '2': 'badly',
+  '1': 'terribly',
+};
 
 export const offerSortTypes: offerSortType = {
   POPULAR: 'Popular',
@@ -70,11 +64,4 @@ POST_REVIEW_FAIL_MESSAGE = 'Не удалось отправить коммен�
 FETCH_FAVORITE_MESSAGE = 'Не удалось получить данные. Попробуйте попозже',
 POST_FAVORITE_MESSAGE = 'Не удалось отправить данные. Попробуйте попозже',
 LOGIN_FAIL_MESSAGE = 'Не удалось залогиниться. Попробуйте попозже',
-}
-
-export enum StatusLoading {
-  Idle = 'idle',
-  Loading = 'loading',
-  Succeeded = 'succeeded',
-  Failed = 'failed',
 }

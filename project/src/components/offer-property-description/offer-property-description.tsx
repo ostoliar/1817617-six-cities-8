@@ -1,14 +1,16 @@
 type OfferPropertyDescriptionProps = {
-    text: string;
-  }
+  text: string;
+}
 
 function OfferPropertyDescription({text}: OfferPropertyDescriptionProps): JSX.Element {
   return (
-    <p className="property__text">
+    <p
+      className="property__text"
+      data-testid="propertyText"
+    >
       {text}
     </p>
   );
 }
 
 export default OfferPropertyDescription;
-

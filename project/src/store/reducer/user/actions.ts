@@ -19,7 +19,9 @@ export const logoutFailure = createAction(
 );
 
 export const requireAuthorization = createAction(
-  ActionType.RequireAuthorization, (authStatus: AuthorizationStatus, userData?: UserAdapted | null) => ({
+  ActionType.RequireAuthorization, (
+    authStatus: AuthorizationStatus, userData?: UserAdapted | null,
+  ) => ({
     payload: {
       authStatus,
       userData,

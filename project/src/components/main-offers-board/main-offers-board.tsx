@@ -3,12 +3,12 @@ import OfferSort from '../offer-sort/offer-sort';
 import {OfferType} from '../../types/offer';
 import Map from '../map/map';
 
-type AppScreenProps = {
+type MainOffersBoardProps = {
   currentCity: string;
   offersList: OfferType[];
 }
 
-function MainOffersBoard({currentCity, offersList}: AppScreenProps): JSX.Element {
+function MainOffersBoard({currentCity, offersList}: MainOffersBoardProps): JSX.Element {
   return (
     <>
       <section className="cities__places places">

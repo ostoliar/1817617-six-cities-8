@@ -1,4 +1,4 @@
-import { User } from '../../types/offer';
+import {User} from '../../types/offer';
 import OfferPropertyDescription from '../offer-property-description/offer-property-description';
 
 type OfferHostProps = {

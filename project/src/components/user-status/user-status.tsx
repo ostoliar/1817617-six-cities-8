@@ -1,11 +1,12 @@
-import {useSelector} from 'react-redux';
 import {AuthorizationStatus} from '../../const';
-import {selectAuthorizationStatus} from '../../store/reducer/user/selectors';
 import UserMenuSignOut from '../user-menu-sign-out/user-menu-sign-out';
 import UserMenuSignIn from '../user-menu-sign-in/user-menu-sign-in';
 
-function UserMenu(): JSX.Element {
-  const authorizationStatus = useSelector(selectAuthorizationStatus);
+type AppScreenProps = {
+  authorizationStatus: AuthorizationStatus;
+}
+
+function UserMenu({authorizationStatus}: AppScreenProps): JSX.Element {
 
   return (
     <nav className="header__nav">
@@ -19,4 +20,3 @@ function UserMenu(): JSX.Element {
 }
 
 export default UserMenu;
-

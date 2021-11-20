@@ -1,10 +1,14 @@
-import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import {Link} from 'react-router-dom';
+import {AppRoutes, AuthorizationStatus} from '../../const';
 
-function Footer(): JSX.Element {
+type FooterProps = {
+  authorizationStatus: AuthorizationStatus;
+}
+
+function Footer({authorizationStatus}: FooterProps): JSX.Element {
   return (
     <footer className="footer container">
-      <Link className="footer__logo-link" to={AppRoute.Main}>
+      <Link className="footer__logo-link" to={AppRoutes.Main}>
         <img
           className="footer__logo"
           src="img/logo.svg"

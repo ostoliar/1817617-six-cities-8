@@ -21,11 +21,11 @@ const selectCustomIcon = new Icon({
   iconAnchor: [13, 40],
 });
 
-type AppScreenProps = {
+type MapProps = {
   offersList: OfferType[];
 }
 
-function Map({offersList}: AppScreenProps): JSX.Element {
+function Map({offersList}: MapProps): JSX.Element {
   const selectedOffer = useSelector(selectSelectedOffer);
   const [{city}] = offersList;
   const mapRef = useRef(null);

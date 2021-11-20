@@ -1,24 +1,25 @@
-import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
-import UserStatus from '../user-status/user-status';
+import {useLocation} from 'react-router-dom';
+import {AppRoutes, AuthorizationStatus} from '../../const';
+import UserMenu from '../user-status/user-status';
+import Logo from '../logo/logo';
 
-function Header(): JSX.Element {
+type HeaderProps = {
+  authorizationStatus: AuthorizationStatus;
+}
+
+function Header({authorizationStatus}: HeaderProps): JSX.Element {
+  const {pathname} = useLocation();
+
   return (
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Link className="header__logo-link header__logo-link--active" to={AppRoute.Main}>
-              <img
-                className="header__logo"
-                src="img/logo.svg"
-                alt="6 cities logo"
-                width="81"
-                height="41"
-              />
-            </Link>
+            <Logo />
           </div>
-          <UserStatus />
+          {
+            pathname !== AppRoutes.Login && <UserMenu authorizationStatus={authorizationStatus}/>
+          }
         </div>
       </div>
     </header>

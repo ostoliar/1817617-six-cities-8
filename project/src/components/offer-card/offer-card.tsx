@@ -1,9 +1,9 @@
 import {Link, useHistory} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import cn from 'classnames';
-import {AppRoute, AuthorizationStatus, offerTypes} from '../../const';
+import {AppRoutes, AuthorizationStatus, offerTypes} from '../../const';
 import {OfferType} from '../../types/offer';
-import {computeRatingWidth} from '../../utils';
+import {computeRatingWidth} from '../../utils/utils';
 import {selectCurrentOffer} from '../../store/reducer/app/actions';
 import {selectAuthorizationStatus} from '../../store/reducer/user/selectors';
 import {favoriteAction} from '../../store/reducer/data/api-actions';
@@ -29,7 +29,7 @@ const getClassNameComponent = (cardType: string) => {
         imageHeight: '110',
       };
     default:
-      throw new Error(`Unknouwn oreder state: '${cardType}'`);
+      throw new Error(`Unknown order state: '${cardType}'`);
   }
 };
 
@@ -62,7 +62,7 @@ function OfferCard({offer, cardType}: OfferCardProps): JSX.Element {
     imageHeight = '200'} = getClassName;
 
   const onSelectOffer = (selectedOffer: OfferType | null) => {
-    if (!AppRoute.Offer.includes(cardType)) {
+    if (!AppRoutes.Offer.includes(cardType)) {
       dispatch(selectCurrentOffer(selectedOffer));
     }
   };
@@ -71,7 +71,7 @@ function OfferCard({offer, cardType}: OfferCardProps): JSX.Element {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       dispatch(favoriteAction(idOffer, !isFavorite));
     } else {
-      history.push(AppRoute.SignIn);
+      history.push(AppRoutes.Login);
     }
   };
 
@@ -85,6 +85,7 @@ function OfferCard({offer, cardType}: OfferCardProps): JSX.Element {
       className={`${modifierArticle} place-card`}
       onMouseEnter={() => onSelectOffer ? onSelectOffer(offer) : undefined}
       onMouseLeave={() => onSelectOffer ? onSelectOffer(null) : undefined}
+      data-testid="imageHover"
     >
       {isPremium &&
       <div className="place-card__mark">
@@ -129,7 +130,7 @@ function OfferCard({offer, cardType}: OfferCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Offer}/${id}`}>
+          <Link to={`${AppRoutes.Offer}/${id}`}>
             {title}
           </Link>
         </h2>

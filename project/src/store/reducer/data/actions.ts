@@ -5,17 +5,15 @@ import {OfferType} from '../../../types/offer';
 
 export const clearCommentForm = createAction(ActionType.ClearCommentForm);
 
-export const loadOfferList = createAction(
-  ActionType.LoadOfferList, (offers: OfferType[]) => ({
+export const loadOffersRequest = createAction(ActionType.LoadOffersRequest);
+
+export const loadOffersSuccess = createAction(
+  ActionType.LoadOffersSuccess, (offers: OfferType[]) => ({
     payload: {
       offers,
     },
   }),
 );
-
-export const loadOffersRequest = createAction(ActionType.LoadOffersRequest);
-
-export const loadOffersSuccess = createAction(ActionType.LoadOffersSuccess);
 
 export const loadOffersFailure = createAction(
   ActionType.LoadOffersFailure, (error: string | null) => ({
@@ -118,12 +116,13 @@ export const fetchFavoriteFailure = createAction(
 export const postFavoriteRequest = createAction(
   ActionType.PostFavoriteRequest);
 
-export const postFavoriteSuccess = createAction(ActionType.PostFavoriteSuccess, (id: number, status: boolean) => ({
-  payload: {
-    id,
-    status,
-  },
-}),
+export const postFavoriteSuccess = createAction(
+  ActionType.PostFavoriteSuccess, (id: number, status: boolean) => ({
+    payload: {
+      id,
+      status,
+    },
+  }),
 );
 
 export const postFavoriteFailure = createAction(

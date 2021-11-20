@@ -6,7 +6,6 @@ import {State} from './state';
 export enum ActionType {
   ChangeSort = 'changeSort',
   ChangeCity = 'city/change',
-  LoadOfferList = 'offerList/load',
   SelectCurrentOffer = 'currentOffer/select',
   RequireAuthorization = 'auth/requireAuthorization',
   RequireLogout = 'auth/requireLogout',

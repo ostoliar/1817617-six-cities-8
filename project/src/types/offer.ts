@@ -7,15 +7,6 @@ export type City = {
   name: string,
 }
 
-export type User = {
-  avatarUrl?: string,
-  email?: string,
-  id?: number,
-  isPro?: boolean,
-  name?: string,
-  token?: string,
-}
-
 type Location = {
   latitude: number,
   longitude: number,
@@ -41,15 +32,6 @@ export type OfferType = {
   type: string,
 }
 
-export type UserAdapted = {
-  ['avatar_url']?: string,
-  email: string,
-  id: number,
-  ['is_pro']?: boolean,
-  name: string,
-  token?: string,
-}
-
 export type OfferAdaptedType = {
   bedrooms: number,
   city: City,
@@ -67,4 +49,22 @@ export type OfferAdaptedType = {
   rating: number,
   title: string,
   type: string,
+}
+
+export type User = {
+  avatarUrl?: string,
+  email?: string,
+  id: number,
+  isPro?: boolean,
+  name: string,
+  token?: string,
+}
+
+export type UserAdapted = {
+  ['avatar_url']?: string,
+  email?: string,
+  id: number,
+  ['is_pro']?: boolean,
+  name: string,
+  token?: string,
 }

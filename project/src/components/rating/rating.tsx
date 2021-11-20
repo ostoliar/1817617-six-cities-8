@@ -1,23 +1,37 @@
-import { ChangeEvent } from 'react';
+import {ChangeEvent} from 'react';
 
-type RatingProps = {
+type StarRatingProps = {
   starNumber: string;
+  starActionNumber: string,
   title: string;
-  onChangeRating: (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChangeRating: (
+    evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 }
 
-function Rating({title, starNumber, onChangeRating}: RatingProps): JSX.Element {
+function StarRating({
+  title,
+  starNumber,
+  starActionNumber,
+  onChangeRating,
+}: StarRatingProps): JSX.Element {
+
   return (
     <>
       <input
         className="form__rating-input visually-hidden"
         name="rating"
         value={starNumber}
+        checked={starNumber === starActionNumber}
         id={`${starNumber}-stars`}
         type="radio"
         onChange={onChangeRating}
       />
-      <label htmlFor={`${starNumber}-stars`} className="reviews__rating-label form__rating-label" title={title}>
+      <label
+        htmlFor={`${starNumber}-stars`}
+        className="reviews__rating-label form__rating-label"
+        title={title}
+      >
         <svg className="form__star-image" width="37" height="33">
           <use xlinkHref="#icon-star" />
         </svg>
@@ -26,4 +40,4 @@ function Rating({title, starNumber, onChangeRating}: RatingProps): JSX.Element {
   );
 }
 
-export default Rating;
+export default StarRating;

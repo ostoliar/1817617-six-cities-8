@@ -9,7 +9,6 @@ import {
   loadOfferCommentsFailure,
   loadOfferCommentsRequest,
   loadOfferCommentsSuccess,
-  loadOfferList,
   loadOffersFailure,
   loadOffersNearbyFailure,
   loadOffersNearbyRequest,
@@ -28,11 +27,11 @@ import {APIRoutes, ErrorTexts} from '../../../const';
 import {ThunkActionResult} from '../../../types/action';
 import {CommentAdaptedType, CommentData, CommentType} from '../../../types/comment';
 
-const adaptArrayToClient = (data: OfferAdaptedType[]): OfferType[] => (
+export const adaptArrayToClient = (data: OfferAdaptedType[]): OfferType[] => (
   data.map((offer: OfferAdaptedType) => adaptToClient(offer))
 );
 
-const adaptToClient = (offer: OfferAdaptedType) => {
+export const adaptToClient = (offer: OfferAdaptedType): OfferType => {
   const {
     'is_favorite': del1,
     'is_premium': del2,
@@ -58,7 +57,7 @@ const adaptToClient = (offer: OfferAdaptedType) => {
   return adaptedOffer;
 };
 
-const adaptCommentsToClient = (data: CommentAdaptedType[]): CommentType[] => (
+export const adaptCommentsToClient = (data: CommentAdaptedType[]): CommentType[] => (
   data
     .map(
       (offerComment: CommentAdaptedType) => adaptCommentToClient(offerComment),
@@ -86,8 +85,7 @@ export const fetchOffersAction = (): ThunkActionResult => (
     dispatch(loadOffersRequest());
     try {
       const {data} = await api.get(APIRoutes.Hotels);
-      dispatch(loadOfferList(adaptArrayToClient(data)));
-      dispatch(loadOffersSuccess());
+      dispatch(loadOffersSuccess(adaptArrayToClient(data)));
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(loadOffersFailure(error.response.status));

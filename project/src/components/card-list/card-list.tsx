@@ -1,11 +1,11 @@
 import OfferCard from '../offer-card/offer-card';
-import { OfferType } from '../../types/offer';
+import {OfferType} from '../../types/offer';
 
-type CardsListProps = {
+type CardListProps = {
   offersList: OfferType[];
 }
 
-function CardsList({offersList}: CardsListProps): JSX.Element {
+function CardsList({offersList}: CardListProps): JSX.Element {
 
   return (
     <div className="cities__places-list places__list tabs__content">

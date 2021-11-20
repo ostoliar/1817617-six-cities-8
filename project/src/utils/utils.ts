@@ -1,5 +1,5 @@
-import {offerSortTypes} from './const';
-import {OfferType} from './types/offer';
+import {offerSortTypes} from '../const';
+import {OfferType} from '../types/offer';
 
 export const computeRatingWidth = (rating: number): string => `${Math.round(rating) * 20}%`;
 
@@ -29,3 +29,16 @@ export const makeOfferSortTypes = {
   [offerSortTypes.RATING_DOWN]: (offerA: OfferType, offerB: OfferType): number =>
     offerB.rating - offerA.rating,
 };
+
+export const getOffersFavoriteListByСities = (offersList: OfferType[]): {[key: string]: OfferType[]} => Array.from(offersList)
+  .reduce((acc:{[key: string]: OfferType[]}, offer) => {
+    if(!acc[offer.city.name] && offer.isFavorite) {
+      acc[offer.city.name] = [];
+    }
+
+    if(offer.isFavorite){
+      (acc[offer.city.name]).push(offer);
+    }
+
+    return acc;
+  }, {});

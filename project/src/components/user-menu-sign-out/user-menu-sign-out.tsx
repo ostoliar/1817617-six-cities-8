@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import {AppRoutes} from '../../const';
 import {fetchOffersAction} from '../../store/reducer/data/api-actions';
 import {logoutAction} from '../../store/reducer/user/api-actions';
 import {selectUserData} from '../../store/reducer/user/selectors';
@@ -14,7 +14,7 @@ function UserMenuSignOut(): JSX.Element {
       <li className="header__nav-item user">
         <Link
           className="header__nav-link header__nav-link--profile"
-          to={AppRoute.Favorites}
+          to={AppRoutes.Favorites}
         >
           <div className="header__avatar-wrapper user__avatar-wrapper">
           </div>
@@ -26,7 +26,7 @@ function UserMenuSignOut(): JSX.Element {
       <li className="header__nav-item">
         <Link
           className="header__nav-link"
-          to={AppRoute.Main}
+          to={AppRoutes.Main}
           onClick={() => {
             dispatch(logoutAction());
             dispatch(fetchOffersAction());
