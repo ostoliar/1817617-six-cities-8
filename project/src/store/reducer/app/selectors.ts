@@ -6,13 +6,13 @@ import {selectOffers} from '../data/selectors';
 import {makeOfferSortTypes} from '../../../utils/utils';
 
 export const selectCurrentCity = (state: State): string => (
-  state[NameSpace.app].currentCity
+  state[NameSpace.App].currentCity
 );
 export const selectSelectedOffer = (state: State): OfferType | null => (
-  state[NameSpace.app].selectedOffer
+  state[NameSpace.App].selectedOffer
 );
 export const selectSelectedSort = (state: State): string => (
-  state[NameSpace.app].selectedSort
+  state[NameSpace.App].selectedSort
 );
 
 export const selectFilteredSortedOffers = createSelector(

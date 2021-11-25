@@ -5,7 +5,7 @@ import Filter from '../../components/filter/filter';
 import Header from '../../components/header/header';
 import MainOffersBoard from '../../components/main-offers-board/main-offers-board';
 import MainOffersEmpty from '../../components/main-offers-empty/main-offers-empty';
-import ErrorScreen from '../../components/error-screen/errror-screen';
+import ErrorScreen from '../../components/error-screen/error-screen';
 import {
   selectCurrentCity,
   selectFilteredSortedOffers

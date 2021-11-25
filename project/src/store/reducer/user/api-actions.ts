@@ -12,7 +12,7 @@ import {
   logoutSuccess,
   requireAuthorization, requireLogout
 } from './actions';
-import {APIRoutes, AuthorizationStatus, ErrorTexts} from '../../../const';
+import {APIRoutes, AuthorizationStatus, Error} from '../../../const';
 import {ThunkActionResult} from '../../../types/action';
 import {AuthData} from '../../../types/auth-data';
 import {dropToken, saveToken} from '../../../components/services/token';
@@ -65,7 +65,7 @@ export const loginAction = (
       dispatch(fetchOffersAction());
     } catch (error: any) {
       dispatch(loginFailure(error.toString()));
-      toast.warn(ErrorTexts.LOGIN_FAIL_MESSAGE);
+      toast.warn(Error.Login);
     }
   }
 );

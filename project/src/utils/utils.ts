@@ -20,13 +20,13 @@ export const formatDateMMMMYYYY = (date: Date): string => new Date(date).toLocal
 });
 
 export const makeOfferSortTypes = {
-  [offerSortTypes.PRICE_UP]: (offerA: OfferType, offerB: OfferType): number =>
+  [offerSortTypes.PriceUp]: (offerA: OfferType, offerB: OfferType): number =>
     offerB.price - offerA.price,
 
-  [offerSortTypes.PRICE_DOWN]: (offerA: OfferType, offerB: OfferType): number =>
+  [offerSortTypes.PriceDown]: (offerA: OfferType, offerB: OfferType): number =>
     offerA.price - offerB.price,
 
-  [offerSortTypes.RATING_DOWN]: (offerA: OfferType, offerB: OfferType): number =>
+  [offerSortTypes.RatingDown]: (offerA: OfferType, offerB: OfferType): number =>
     offerB.rating - offerA.rating,
 };
 

@@ -4,7 +4,7 @@ import {createMemoryHistory} from 'history';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {screen, render} from '@testing-library/react';
 import {AuthorizationStatus} from '../../const';
-import ErrorScreen from './errror-screen';
+import ErrorScreen from './error-screen';
 
 const mockStore = configureMockStore();
 

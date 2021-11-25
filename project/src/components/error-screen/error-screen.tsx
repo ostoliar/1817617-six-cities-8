@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 import {Link} from 'react-router-dom';
-import Header from '../../components/header/header';
+import Header from '../header/header';
 import {AppRoutes, AuthorizationStatus} from '../../const';
 import './error-screen.css';
 

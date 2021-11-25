@@ -6,43 +6,43 @@ import {State} from '../../../types/state';
 import {NameSpace} from '../root-reducer';
 
 export const selectCities = (state: State): string[] => (
-  state[NameSpace.data].cities
+  state[NameSpace.Data].cities
 );
 export const selectOffers = (state: State): OfferType[] => (
-  state[NameSpace.data].offers
+  state[NameSpace.Data].offers
 );
 export const selectOffersLoading = (state: State): boolean => (
-  state[NameSpace.data].offersLoading
+  state[NameSpace.Data].offersLoading
 );
 export const selectErrorLoadOffers = (state: State): string | null => (
-  state[NameSpace.data].errorLoadOffers
+  state[NameSpace.Data].errorLoadOffers
 );
 export const selectOfferComments = (state: State): CommentType[] => (
-  state[NameSpace.data].offerComments
+  state[NameSpace.Data].offerComments
 );
 export const selectErrorLoadOfferComments = (state: State): string | null => (
-  state[NameSpace.data].errorLoadOfferComments
+  state[NameSpace.Data].errorLoadOfferComments
 );
 export const selectCommentLoading = (state: State): boolean => (
-  state[NameSpace.data].commentLoading
+  state[NameSpace.Data].commentLoading
 );
 export const selectIsClearCommentForm = (state: State): boolean => (
-  state[NameSpace.data].isClearCommentForm
+  state[NameSpace.Data].isClearCommentForm
 );
 export const selectOfferByIdLoading = (state: State): StatusLoading => (
-  state[NameSpace.data].offerByIdLoading
+  state[NameSpace.Data].offerByIdLoading
 );
 export const selectOfferById = (state: State): OfferType | null => (
-  state[NameSpace.data].offerById
+  state[NameSpace.Data].offerById
 );
 export const selectErrorLoadOfferById = (state: State): string | null => (
-  state[NameSpace.data].errorLoadOfferById
+  state[NameSpace.Data].errorLoadOfferById
 );
 export const selectOffersNearby = (state: State): OfferType[] => (
-  state[NameSpace.data].offersNearby
+  state[NameSpace.Data].offersNearby
 );
 export const selectFavoriteOffers = (state: State): OfferType[] => (
-  state[NameSpace.data].favoriteOffers
+  state[NameSpace.Data].favoriteOffers
 );
 
 export const selectOfferByIdCombo = createSelector(

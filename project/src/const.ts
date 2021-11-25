@@ -3,6 +3,9 @@ import {offerSortType, offerType, valueRatingType} from './types/const';
 export const FIRST_CITY_TAB = 'Paris';
 export const SORT_TYPE_DEFAULT = 'Popular';
 
+export const URL_MARKER_DEFAULT = 'img/pin.svg';
+export const URL_MARKER_SELECT = 'img/pin-active.svg';
+
 export const cities: string[] = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 export enum StatusLoading {
@@ -36,7 +39,7 @@ export enum AuthorizationStatus {
 
 export const offerTypes: offerType = {
   apartment: 'Apartment',
-  room: 'Room',
+  room: 'Private Room',
   house: 'House',
   hotel: 'Hotel',
 };
@@ -50,18 +53,18 @@ export const valueRatings: valueRatingType = {
 };
 
 export const offerSortTypes: offerSortType = {
-  POPULAR: 'Popular',
-  PRICE_DOWN: 'Price: low to high',
-  PRICE_UP: 'Price: high to low',
-  RATING_DOWN: 'Top rated first',
+  Popular: 'Popular',
+  PriceDown: 'Price: low to high',
+  PriceUp: 'Price: high to low',
+  RatingDown: 'Top rated first',
 };
 
-export enum ErrorTexts {
-FETCH_OFFER_BY_ID_FAIL_MESSAGE = 'Не удалось получить данные. Попробуйте попозже',
-FETCH_NEARBY_OFFER_FAIL_MESSAGE = 'Не удалось получить данные. Попробуйте попозже',
-FETCH_REVIEW_FAIL_MESSAGE = 'Не удалось получить комментарии. Попробуйте попозже',
-POST_REVIEW_FAIL_MESSAGE = 'Не удалось отправить комментарий. Попробуйте попозже',
-FETCH_FAVORITE_MESSAGE = 'Не удалось получить данные. Попробуйте попозже',
-POST_FAVORITE_MESSAGE = 'Не удалось отправить данные. Попробуйте попозже',
-LOGIN_FAIL_MESSAGE = 'Не удалось залогиниться. Попробуйте попозже',
+export enum Error {
+Offer = 'Не удалось получить данные. Попробуйте попозже',
+Nearby = 'Не удалось получить данные. Попробуйте попозже',
+Fetchreview = 'Не удалось получить комментарии. Попробуйте попозже',
+Postreview = 'Не удалось отправить комментарий. Попробуйте попозже',
+Fetchfavorite = 'Не удалось получить данные. Попробуйте попозже',
+Postfavorite = 'Не удалось отправить данные. Попробуйте попозже',
+Login = 'Не удалось залогиниться. Попробуйте попозже',
 }

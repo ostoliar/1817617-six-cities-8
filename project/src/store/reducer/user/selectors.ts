@@ -4,11 +4,11 @@ import {State} from '../../../types/state';
 import {NameSpace} from '../root-reducer';
 
 export const selectAuthorizationStatus = (state: State): AuthorizationStatus => (
-  state[NameSpace.user].authorizationStatus
+  state[NameSpace.User].authorizationStatus
 );
 export const selectLoginLoading = (state: State): boolean => (
-  state[NameSpace.user].loginLoading
+  state[NameSpace.User].loginLoading
 );
 export const selectUserData = (state: State): User | null | undefined => (
-  state[NameSpace.user].userData
+  state[NameSpace.User].userData
 );

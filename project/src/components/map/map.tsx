@@ -5,9 +5,8 @@ import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/use-map';
 import {OfferType} from '../../types/offer';
 import {selectSelectedOffer} from '../../store/reducer/app/selectors';
+import {URL_MARKER_DEFAULT, URL_MARKER_SELECT} from '../../const';
 
-export const URL_MARKER_DEFAULT = 'img/pin.svg';
-export const URL_MARKER_SELECT = 'img/pin-active.svg';
 
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,

@@ -23,7 +23,7 @@ import {
   postOfferCommentSuccess
 } from './actions';
 import {OfferType, OfferAdaptedType} from '../../../types/offer';
-import {APIRoutes, ErrorTexts} from '../../../const';
+import {APIRoutes, Error} from '../../../const';
 import {ThunkActionResult} from '../../../types/action';
 import {CommentAdaptedType, CommentData, CommentType} from '../../../types/comment';
 
@@ -103,7 +103,7 @@ export const fetchOfferByIdAction = (id: string): ThunkActionResult => (
     } catch (error: any) {
       dispatch(loadOfferByIdFailure(error.response.status));
       if (error.response.status !== 404) {
-        toast.warn(ErrorTexts.FETCH_OFFER_BY_ID_FAIL_MESSAGE);
+        toast.warn(Error.Offer);
       }
     }
   }
@@ -120,7 +120,7 @@ export const fetchNearbyOffersAction = (id: string): ThunkActionResult => (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(loadOffersNearbyFailure(error.toString()));
-      toast.warn(ErrorTexts.FETCH_NEARBY_OFFER_FAIL_MESSAGE);
+      toast.warn(Error.Nearby);
     }
   }
 );
@@ -134,7 +134,7 @@ export const fetchOfferCommentsAction = (id: string): ThunkActionResult => (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(loadOfferCommentsFailure(error.toString()));
-      toast.warn(ErrorTexts.FETCH_REVIEW_FAIL_MESSAGE);
+      toast.warn(Error.Fetchreview);
     }
   }
 );
@@ -153,7 +153,7 @@ export const commentAction = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(postOfferCommentFailure(error.toString()));
-      toast.warn(ErrorTexts.POST_REVIEW_FAIL_MESSAGE);
+      toast.warn(Error.Postreview);
     }
   }
 );
@@ -167,7 +167,7 @@ export const fetchFavoritesAction = (): ThunkActionResult => (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(fetchFavoriteFailure(error.toString()));
-      toast.warn(ErrorTexts.FETCH_FAVORITE_MESSAGE);
+      toast.warn(Error.Fetchfavorite);
     }
   }
 );
@@ -182,7 +182,7 @@ export const favoriteAction = (id: number, status: boolean): ThunkActionResult =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(postFavoriteFailure(error.toString()));
-      toast.warn(ErrorTexts.POST_FAVORITE_MESSAGE);
+      toast.warn(Error.Postfavorite);
     }
   }
 );
