@@ -134,7 +134,7 @@ export const fetchOfferCommentsAction = (id: string): ThunkActionResult => (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(loadOfferCommentsFailure(error.toString()));
-      toast.warn(Error.Fetchreview);
+      toast.warn(Error.FetchReview);
     }
   }
 );
@@ -153,7 +153,7 @@ export const commentAction = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(postOfferCommentFailure(error.toString()));
-      toast.warn(Error.Postreview);
+      toast.warn(Error.PostReview);
     }
   }
 );
@@ -167,7 +167,7 @@ export const fetchFavoritesAction = (): ThunkActionResult => (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(fetchFavoriteFailure(error.toString()));
-      toast.warn(Error.Fetchfavorite);
+      toast.warn(Error.FetchFavorite);
     }
   }
 );
@@ -182,7 +182,7 @@ export const favoriteAction = (id: number, status: boolean): ThunkActionResult =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       dispatch(postFavoriteFailure(error.toString()));
-      toast.warn(Error.Postfavorite);
+      toast.warn(Error.PostFavorite);
     }
   }
 );
